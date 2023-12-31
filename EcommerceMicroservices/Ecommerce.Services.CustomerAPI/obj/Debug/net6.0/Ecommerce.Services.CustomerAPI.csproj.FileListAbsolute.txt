@@ -30,3 +30,13 @@ C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservi
 C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\obj\Debug\net6.0\Ecommerce.Services.CustomerAPI.pdb
 C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\obj\Debug\net6.0\Ecommerce.Services.CustomerAPI.genruntimeconfig.cache
 C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\obj\Debug\net6.0\ref\Ecommerce.Services.CustomerAPI.dll
+C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\bin\Debug\net6.0\Humanizer.dll
+C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\bin\Debug\net6.0\Npgsql.dll
+C:\Users\kaank\Desktop\Projects\Ecommerce-Microservices-.Net\EcommerceMicroservices\Ecommerce.Services.CustomerAPI\bin\Debug\net6.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll

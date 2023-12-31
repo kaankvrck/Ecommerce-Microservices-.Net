@@ -1,4 +1,4 @@
-namespace Ecommerce.Services.CustomerAPI
+namespace Ecommerce.Services.CatalogAPI
 {
     public class WeatherForecast
     {
