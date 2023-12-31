@@ -28,23 +28,20 @@ namespace Ecommerce.Services.CustomerAPI.Controllers
         [HttpGet(Name = "GetAllCustomers")]
         public async Task<IActionResult> Get()
         {
-            var customer = new Customer()
-            {
-                Name = "Bradley Browning",
-                Email = "jason20@hamilton-valdez.org",
-                Phone = "(658)620 - 6936x0840",
-                Address = "05346 Terry Causeway Suite 323, South Petermouth, AK 80388",
-                City = "Ashleyshire",
-                Region = "Wisconsin",
-                PostalCode = "53407"
-            };
-
-            _context.Add(customer);
-            await _context.SaveChangesAsync();
-
             var allCustomers = await _context.Customers.ToListAsync();
-
             return Ok(allCustomers);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(customer);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(Get), new { id = customer.Id }, customer);
+            }
+            return BadRequest(ModelState);
         }
     }
 }

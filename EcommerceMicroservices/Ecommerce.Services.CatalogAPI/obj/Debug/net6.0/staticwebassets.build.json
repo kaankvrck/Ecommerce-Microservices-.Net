@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "kRZBexr5vL7Tcnm82i3cBaLAq8UAyA4QUqLJc9GxvOc=",
+  "Source": "Ecommerce.Services.CatalogAPI",
+  "BasePath": "_content/Ecommerce.Services.CatalogAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,0 +1,93 @@
+version: '3.4'
+
+networks:
+  dev:
+    driver: bridge      
+
+services:
+  customer-api:
+    image: docker.io/library/ecommerce-customer-api
+    depends_on:
+        - "customer_db"
+    container_name: customer-services
+    ports:
+        - "7001:80"
+    build: ./Ecommerce.Services.CustomerAPI
+    environment:
+        - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Server=customer_db;Port=5432;Database=CustomerDb; IntegratedSecurity=true;Pooling=True;
+        - ASPNETCORE_URLS=http://+:80
+        - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+        - dev
+  customer_db:
+    image: postgres:latest
+    container_name: customer_db
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=CustomerDb
+    ports:
+        - "5433:5432"
+    restart: always
+    volumes:
+        - app_data:/var/lib/postgresql/data;
+    networks:
+        - dev
+  catalog-api:
+    image: docker.io/library/ecommerce-catalog-api
+    depends_on:
+        - "catalog_db"
+    container_name: catalog-services
+    ports:
+        - "7002:80"
+    build: ./Ecommerce.Services.CatalogAPI
+    environment:
+        - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Server=catalog_db;Port=5432;Database=CatalogDb; IntegratedSecurity=true;Pooling=True;
+        - ASPNETCORE_URLS=http://+:80
+        - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+        - dev
+  catalog_db:
+    image: postgres:latest
+    container_name: catalog_db
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=CatalogDb
+    ports:
+        - "5434:5432"
+    restart: always
+    volumes:
+        - app_data:/var/lib/postgresql/data;
+    networks:
+        - dev
+  order-api:
+    image: docker.io/library/ecommerce-order-api
+    depends_on:
+        - "order_db"
+    container_name: order-services
+    ports:
+        - "7003:80"
+    build: ./Ecommerce.Services.OrderAPI
+    environment:
+        - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Server=order_db;Port=5432;Database=OrderDb; IntegratedSecurity=true;Pooling=True;
+        - ASPNETCORE_URLS=http://+:80
+        - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+        - dev
+  order_db:
+    image: postgres:latest
+    container_name: order_db
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=OrderDb
+    ports:
+        - "5435:5432"
+    restart: always
+    volumes:
+        - app_data:/var/lib/postgresql/data;
+    networks:
+        - dev
+volumes:
+  app_data:
