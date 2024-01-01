@@ -1,15 +1,11 @@
 ﻿namespace Ecommerce.Services.OrderAPI.Models
 {
-    public class Order
+    public class OrderDetail
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public string Address { get; set; }
-        public decimal TotalPrice { get; set; }
-        public int StatusId { get; set; }
+        public int OrderId { get; set; }
+        public int Quantity { get; set; }
+        public decimal Price { get; set; }
         public DateTime CreatedDate { get; set; }
         public int CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
