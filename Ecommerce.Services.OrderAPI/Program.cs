@@ -28,4 +28,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// try-catch database testi için eklenmiþtir. Silinecek!
+//try
+//{
+//    OrderDbInit.InitDb(app);
+//}
+//catch (Exception e)
+//{
+//    Console.WriteLine(e);
+//}
+
 app.Run();

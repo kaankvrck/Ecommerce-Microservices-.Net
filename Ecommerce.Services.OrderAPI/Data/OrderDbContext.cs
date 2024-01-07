@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Ecommerce.Services.OrderAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Services.OrderAPI.Data
@@ -10,10 +9,8 @@ namespace Ecommerce.Services.OrderAPI.Data
         {
         }
 
-        public DbSet<Order> tb_Order { get; set; }
-        public DbSet<OrderDetail> tb_OrderDetail { get; set; }
-        public DbSet<OrderStatus> tb_OrderStatus { get; set; }
-        public DbSet<Product> tb_Product { get; set; }
-        
+        public DbSet<Order> tb_order { get; set; }
+        public DbSet<OrderDetail> tb_order_detail { get; set; }
+        public DbSet<OrderStatus> tb_order_status { get; set; }
     }
 }
