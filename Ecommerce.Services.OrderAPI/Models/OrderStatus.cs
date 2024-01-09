@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Services.OrderAPI.Data
+﻿namespace Ecommerce.Services.OrderAPI.Models
 {
     public class OrderStatus
     {

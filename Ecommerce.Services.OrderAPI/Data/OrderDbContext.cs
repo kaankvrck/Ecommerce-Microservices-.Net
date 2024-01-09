@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Ecommerce.Services.OrderAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Services.OrderAPI.Data

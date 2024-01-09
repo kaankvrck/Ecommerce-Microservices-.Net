@@ -1,6 +1,6 @@
 ﻿using Ecommerce.Services.OrderAPI.Common;
 
-namespace Ecommerce.Services.OrderAPI.Data
+namespace Ecommerce.Services.OrderAPI.Models
 {
     public class Order
     {
