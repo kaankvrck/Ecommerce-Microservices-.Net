@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Services.OrderAPI.Models
+﻿namespace Ecommerce.Services.OrderAPI.Data
 {
     public class CreateOrderRequest
     {

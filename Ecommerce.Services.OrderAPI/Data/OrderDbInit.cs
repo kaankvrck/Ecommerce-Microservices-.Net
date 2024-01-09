@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Services.OrderAPI.Common;
+using Ecommerce.Services.OrderAPI.Models;
 
 namespace Ecommerce.Services.OrderAPI.Data
 {
@@ -24,6 +25,7 @@ namespace Ecommerce.Services.OrderAPI.Data
             {
                 new Order()
                 {
+                    customerid = 1,
                     name = "John",
                     surname = "Nhoj",
                     phonenumber = "1234567890",
@@ -31,11 +33,12 @@ namespace Ecommerce.Services.OrderAPI.Data
                     address = "Istanbul TR 34000",
                     totalprice = 1452.54m,
                     statusid = 0,
-                    createddate = TimeHelper.GetCurrentTurkeyTime(),
+                    createddate = DateTime.SpecifyKind(TimeHelper.GetCurrentTurkeyTime(), DateTimeKind.Utc),
                     createdby = 1
                 },
                 new Order()
                 {
+                    customerid = 2,
                     name = "Tom",
                     surname = "Mot",
                     phonenumber = "1234562890",
@@ -43,7 +46,7 @@ namespace Ecommerce.Services.OrderAPI.Data
                     address = "Izmir TR 34000",
                     totalprice = 1982,
                     statusid = 0,
-                    createddate = TimeHelper.GetCurrentTurkeyTime(),
+                    createddate = DateTime.SpecifyKind(TimeHelper.GetCurrentTurkeyTime(), DateTimeKind.Utc),
                     createdby = 1
                 }
             };
