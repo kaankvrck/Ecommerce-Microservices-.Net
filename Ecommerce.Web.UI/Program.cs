@@ -1,7 +1,25 @@
+using Ecommerce.Web.UI.Service;
+using Ecommerce.Web.UI.Service.IService;
+using Ecommerce.Web.UI.Utility;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<ICustomerService, CustomerService>();
+SD.CustomerAPIBase = builder.Configuration["ServiceUrls:CustomerAPI"];
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromHours(10);
+        options.LoginPath = "/Customer/Login";
+        options.AccessDeniedPath = "/Customer/AccessDenied";
+    });
 
 var app = builder.Build();
 
