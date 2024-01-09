@@ -1,5 +1,11 @@
 using Ecommerce.Services.CustomerAPI.Data;
+using Ecommerce.Services.CustomerAPI.Models;
+using Ecommerce.Services.CustomerAPI.Service;
+using Ecommerce.Services.CustomerAPI.Service.IService;
+using Mango.Services.AuthAPI.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,8 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<CustomerDbContext>(options => options.UseNpgsql(conn));
-
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
+builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<CustomerDbContext>()
+    .AddDefaultTokenProviders(); 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -23,7 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
