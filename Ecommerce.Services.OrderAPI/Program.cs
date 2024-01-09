@@ -1,3 +1,4 @@
+using Ecommerce.Services.OrderAPI.Common;
 using Ecommerce.Services.OrderAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// For ApiService.cs TEST!
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<ApiServiceHelper>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,5 +32,15 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// try-catch database testi için eklenmiþtir. Silinecek!
+//try
+//{
+//    OrderDbInit.InitDb(app);
+//}
+//catch (Exception e)
+//{
+//    Console.WriteLine(e);
+//}
 
 app.Run();
