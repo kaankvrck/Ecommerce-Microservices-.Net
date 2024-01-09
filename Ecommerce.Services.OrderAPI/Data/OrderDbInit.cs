@@ -1,7 +1,7 @@
 ﻿using Ecommerce.Services.OrderAPI.Common;
-using Ecommerce.Services.OrderAPI.Data;
+using Ecommerce.Services.OrderAPI.Models;
 
-namespace Ecommerce.Services.OrderAPI.Models
+namespace Ecommerce.Services.OrderAPI.Data
 {
     // Dummy data initilizer !!!!
     public class OrderDbInit
