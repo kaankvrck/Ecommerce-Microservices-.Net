@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Login Page";
+}
+
+<!-- Start Section -->
+<section class="container-fluid py-5">
+    <div class="row">
+        <!-- Login Section -->
+        <div class="col-md-6 col-lg-12 pb-5">
+            <div class="h-100 py-5 text-left">
+                <div class="bg-light py-5">
+                    <div class="container">
+                        <div class="row align-items-center py-5">
+                            <div class="col-md-6 m-auto">
+                                <h2 id="login" class="h1 text-center">Login</h2>
+                                <!-- Start Login Form -->
+                                <form method="post" role="form">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="email" name="email"
+                                            placeholder="Enter your email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password"
+                                            placeholder="Enter your password" required>
+                                    </div>
+                                    <div class="mb-3 text-center">
+                                        <!-- Define login action for this button to go Profile page -->
+                                        <button type="submit" class="btn btn-success btn-lg px-5">Login</button>
+                                    </div>
+                                </form>
+                                <div class="mb-3 text-center">
+                                    Not registered? <a href="#signup">Create an account</a>
+                                </div>
+                                <!-- End Login Form -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Signup Section -->
+        <div class="col-md-6 col-lg-12 pb-5">
+            <div class="h-100 py-5 text-left">
+                <div class="bg-light py-3">
+                    <div class="container">
+                        <div class="row align-items-center py-5">
+                            <div class="col-md-6 m-auto">
+                                <h2 id="signup" class="h1 text-center">Sign up</h2>
+                                <!-- Start Sign up Form -->
+                                <form method="post" role="form">
+                                    <div class="mb-3">
+                                        <label for="Name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="Name" name="Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="Email" name="Email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="Phone" class="form-label">Phone</label>
+                                        <input type="text" class="form-control" id="Phone" name="Phone">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="Address" class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="Address" name="Address" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="signupPassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="signupPassword" name="Password"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
+                                        <input type="password" class="form-control" id="signupConfirmPassword"
+                                            name="ConfirmPassword" required>
+                                    </div>
+                                    <div class="mb-3 text-center">
+                                        <button type="submit" class="btn btn-success btn-lg px-5">Sign up</button>
+                                    </div>
+                                </form>
+                                <div class="mb-3 text-center">
+                                    Already have an account? <a href="#login">Login</a>
+                                </div>
+                                <!-- End Sign up Form -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Section -->
