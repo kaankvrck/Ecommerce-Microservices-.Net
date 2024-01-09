@@ -89,5 +89,16 @@ services:
         - app_data:/var/lib/postgresql/data;
     networks:
         - dev
+  web-ui:
+    image: docker.io/library/ecommerce-web-ui
+    container_name: web-ui
+    ports:
+        - "7000:80"
+    build: ./Ecommerce.Web.UI
+    environment:
+        - ASPNETCORE_URLS=http://+:80
+        - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+        - dev
 volumes:
   app_data:
