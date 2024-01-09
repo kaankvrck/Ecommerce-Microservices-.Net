@@ -1,6 +1,7 @@
 using Ecommerce.Web.UI.Service;
 using Ecommerce.Web.UI.Service.IService;
 using Ecommerce.Web.UI.Utility;
+using Mango.Web.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<ICustomerService, CustomerService>();
 SD.CustomerAPIBase = builder.Configuration["ServiceUrls:CustomerAPI"];
+builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -35,7 +38,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
