@@ -1,5 +1,4 @@
-﻿using Ecommerce.Services.CustomerAPI.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Services.CustomerAPI.Data
 {
@@ -10,6 +9,5 @@ namespace Ecommerce.Services.CustomerAPI.Data
             
         }
 
-        public DbSet<Customer> Customers { get; set; }
     }
 }
