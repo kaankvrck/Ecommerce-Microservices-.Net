@@ -1,43 +1,60 @@
-﻿using System.Text;
+﻿using Microsoft.AspNetCore.Components;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Ecommerce.Services.OrderAPI.Common
 {
     public class ApiServiceHelper
     {
-        public static async Task<string> GetAsync(string apiUrl)
-        {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+        private readonly IHttpClientFactory _httpClientFactory;
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadAsStringAsync();
-                }
-                else
-                {
-                    Console.WriteLine($"GET request failed with status code: {response.StatusCode}");
-                    return null;
-                }
-            }
+        public ApiServiceHelper(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
         }
-        public static async Task<string> PutAsync(string apiUrl, string data)
+
+        public async Task<string> GetAsync(string apiUrl)
         {
-            using (HttpClient httpClient = new HttpClient())
+            var httpClient = _httpClientFactory.CreateClient();
+
+            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+            return await GetHttpResponse(response);
+        }
+
+        
+
+        public async Task<string> GetWithParamAsync(string apiUrl, string paramValue)
+        {
+            string fullUrl = $"{apiUrl}/{paramValue}";
+
+            var httpClient = _httpClientFactory.CreateClient();
+
+            HttpResponseMessage response = await httpClient.GetAsync(fullUrl);
+
+            return await GetHttpResponse(response);
+        }
+
+        public async Task<string> PutAsync(string apiUrl, string data)
+        {
+            var httpClient = _httpClientFactory.CreateClient();
+
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await httpClient.PutAsync(apiUrl, content);
+
+            return await GetHttpResponse(response);
+        }
+        private static async Task<string> GetHttpResponse(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode)
             {
-                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await httpClient.PutAsync(apiUrl, content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadAsStringAsync();
-                }
-                else
-                {
-                    Console.WriteLine($"PUT request failed with status code: {response.StatusCode}");
-                    return null;
-                }
+                return await response.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                return $"GET request failed with status code: {response.StatusCode}";
             }
         }
     }

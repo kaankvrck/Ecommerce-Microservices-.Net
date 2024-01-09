@@ -1,3 +1,4 @@
+using Ecommerce.Services.OrderAPI.Common;
 using Ecommerce.Services.OrderAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// For ApiService.cs TEST!
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<ApiServiceHelper>();
 
 var app = builder.Build();
 
