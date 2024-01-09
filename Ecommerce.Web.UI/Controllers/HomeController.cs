@@ -17,8 +17,15 @@ namespace Ecommerce.Web.UI.Controllers
         {
             return View();
         }
-
+        public IActionResult About()
+        {
+            return View();
+        }
         public IActionResult Shop()
+        {
+            return View();
+        }
+        public IActionResult Login()
         {
             return View();
         }
@@ -26,7 +33,10 @@ namespace Ecommerce.Web.UI.Controllers
         {
             return View();
         }
-
+        public IActionResult Profile()
+        {
+            return View();
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

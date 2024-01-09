@@ -1,0 +1,54 @@
+@* @model UserProfileModel *@
+
+@{
+    ViewData["Title"] = "Profile Page";
+}
+
+<section class="bg-success py-5">
+    <div class="container">
+        <div class="row align-items-center py-5">
+            <div class="col-md-8 text-white">
+                <h2 class="display-4">Customer Profile</h2>
+                <div id="profile-container">
+                    <table class="table table-striped text-white">
+                        <tr>
+                            <td class="text-white">Name</td>
+                            <td class="text-white">Birol ÇİLOĞLUGİL</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Email</td>
+                            <td class="text-white">birol.ciloglugil@ege.edu.tr</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Phone</td>
+                            <td class="text-white">+90 505 200 00 00</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Address </td>
+                            <td class="text-white">Ege Üniversitesi Bilgisayar Mühendisliği Kazımdirik Mahallesi, Üniversite Cad. No:9/17,
+                                35100 Bornova Metro Karşısı, Bornova/İZMİR</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <div class="h1 text-white"><i class="fa fa-user fa-4x"></i></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@* <div id="profile-container">
+<dl>
+<dt>First Name:</dt>
+<dd>@Model.FirstName</dd>
+
+<dt>Last Name:</dt>
+<dd>@Model.LastName</dd>
+
+<dt>Email:</dt>
+<dd>@Model.Email</dd>
+</dl>
+</div> *@
