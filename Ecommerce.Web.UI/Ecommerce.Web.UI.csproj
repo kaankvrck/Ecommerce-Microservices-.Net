@@ -1,0 +1,167 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>632f6d01-ff54-4f3f-b9a1-0b90d7c3561f</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\bootstrap.min.css" />
+    <Content Remove="wwwroot\css\custom.css" />
+    <Content Remove="wwwroot\css\fontawesome.css" />
+    <Content Remove="wwwroot\css\fontawesome.min.css" />
+    <Content Remove="wwwroot\css\slick-theme.css" />
+    <Content Remove="wwwroot\css\slick-theme.min.css" />
+    <Content Remove="wwwroot\css\slick.min.css" />
+    <Content Remove="wwwroot\css\templatemo.css" />
+    <Content Remove="wwwroot\css\templatemo.min.css" />
+    <Content Remove="wwwroot\img\about-hero.svg" />
+    <Content Remove="wwwroot\img\ajax-loader.gif" />
+    <Content Remove="wwwroot\img\apple-icon.png" />
+    <Content Remove="wwwroot\img\banner_img_01.jpg" />
+    <Content Remove="wwwroot\img\banner_img_02.jpg" />
+    <Content Remove="wwwroot\img\banner_img_03.jpg" />
+    <Content Remove="wwwroot\img\brand_01.png" />
+    <Content Remove="wwwroot\img\brand_02.png" />
+    <Content Remove="wwwroot\img\brand_03.png" />
+    <Content Remove="wwwroot\img\brand_04.png" />
+    <Content Remove="wwwroot\img\category_img_01.jpg" />
+    <Content Remove="wwwroot\img\category_img_02.jpg" />
+    <Content Remove="wwwroot\img\category_img_03.jpg" />
+    <Content Remove="wwwroot\img\favicon.ico" />
+    <Content Remove="wwwroot\img\feature_prod_01.jpg" />
+    <Content Remove="wwwroot\img\feature_prod_02.jpg" />
+    <Content Remove="wwwroot\img\feature_prod_03.jpg" />
+    <Content Remove="wwwroot\img\product_single_01.jpg" />
+    <Content Remove="wwwroot\img\product_single_02.jpg" />
+    <Content Remove="wwwroot\img\product_single_03.jpg" />
+    <Content Remove="wwwroot\img\product_single_04.jpg" />
+    <Content Remove="wwwroot\img\product_single_05.jpg" />
+    <Content Remove="wwwroot\img\product_single_06.jpg" />
+    <Content Remove="wwwroot\img\product_single_07.jpg" />
+    <Content Remove="wwwroot\img\product_single_08.jpg" />
+    <Content Remove="wwwroot\img\product_single_09.jpg" />
+    <Content Remove="wwwroot\img\product_single_10.jpg" />
+    <Content Remove="wwwroot\img\shop_01.jpg" />
+    <Content Remove="wwwroot\img\shop_02.jpg" />
+    <Content Remove="wwwroot\img\shop_03.jpg" />
+    <Content Remove="wwwroot\img\shop_04.jpg" />
+    <Content Remove="wwwroot\img\shop_05.jpg" />
+    <Content Remove="wwwroot\img\shop_06.jpg" />
+    <Content Remove="wwwroot\img\shop_07.jpg" />
+    <Content Remove="wwwroot\img\shop_08.jpg" />
+    <Content Remove="wwwroot\img\shop_09.jpg" />
+    <Content Remove="wwwroot\img\shop_10.jpg" />
+    <Content Remove="wwwroot\img\shop_11.jpg" />
+    <Content Remove="wwwroot\js\bootstrap.bundle.min.js" />
+    <Content Remove="wwwroot\js\custom.js" />
+    <Content Remove="wwwroot\js\jquery-1.11.0.min.js" />
+    <Content Remove="wwwroot\js\jquery-migrate-1.2.1.min.js" />
+    <Content Remove="wwwroot\js\slick.min.js" />
+    <Content Remove="wwwroot\js\templatemo.js" />
+    <Content Remove="wwwroot\js\templatemo.min.js" />
+    <Content Remove="wwwroot\webfonts\fa-brands-400.eot" />
+    <Content Remove="wwwroot\webfonts\fa-brands-400.svg" />
+    <Content Remove="wwwroot\webfonts\fa-brands-400.ttf" />
+    <Content Remove="wwwroot\webfonts\fa-brands-400.woff" />
+    <Content Remove="wwwroot\webfonts\fa-brands-400.woff2" />
+    <Content Remove="wwwroot\webfonts\fa-regular-400.eot" />
+    <Content Remove="wwwroot\webfonts\fa-regular-400.svg" />
+    <Content Remove="wwwroot\webfonts\fa-regular-400.ttf" />
+    <Content Remove="wwwroot\webfonts\fa-regular-400.woff" />
+    <Content Remove="wwwroot\webfonts\fa-regular-400.woff2" />
+    <Content Remove="wwwroot\webfonts\fa-solid-900.eot" />
+    <Content Remove="wwwroot\webfonts\fa-solid-900.svg" />
+    <Content Remove="wwwroot\webfonts\fa-solid-900.ttf" />
+    <Content Remove="wwwroot\webfonts\fa-solid-900.woff" />
+    <Content Remove="wwwroot\webfonts\fa-solid-900.woff2" />
+    <Content Remove="wwwroot\webfonts\slick.eot" />
+    <Content Remove="wwwroot\webfonts\slick.svg" />
+    <Content Remove="wwwroot\webfonts\slick.ttf" />
+    <Content Remove="wwwroot\webfonts\slick.woff" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\bootstrap.min.css" />
+    <None Include="wwwroot\css\custom.css" />
+    <None Include="wwwroot\css\fontawesome.css" />
+    <None Include="wwwroot\css\fontawesome.min.css" />
+    <None Include="wwwroot\css\slick-theme.css" />
+    <None Include="wwwroot\css\slick-theme.min.css" />
+    <None Include="wwwroot\css\slick.min.css" />
+    <None Include="wwwroot\css\templatemo.css" />
+    <None Include="wwwroot\css\templatemo.min.css" />
+    <None Include="wwwroot\img\about-hero.svg" />
+    <None Include="wwwroot\img\ajax-loader.gif" />
+    <None Include="wwwroot\img\apple-icon.png" />
+    <None Include="wwwroot\img\banner_img_01.jpg" />
+    <None Include="wwwroot\img\banner_img_02.jpg" />
+    <None Include="wwwroot\img\banner_img_03.jpg" />
+    <None Include="wwwroot\img\brand_01.png" />
+    <None Include="wwwroot\img\brand_02.png" />
+    <None Include="wwwroot\img\brand_03.png" />
+    <None Include="wwwroot\img\brand_04.png" />
+    <None Include="wwwroot\img\category_img_01.jpg" />
+    <None Include="wwwroot\img\category_img_02.jpg" />
+    <None Include="wwwroot\img\category_img_03.jpg" />
+    <None Include="wwwroot\img\favicon.ico" />
+    <None Include="wwwroot\img\feature_prod_01.jpg" />
+    <None Include="wwwroot\img\feature_prod_02.jpg" />
+    <None Include="wwwroot\img\feature_prod_03.jpg" />
+    <None Include="wwwroot\img\product_single_01.jpg" />
+    <None Include="wwwroot\img\product_single_02.jpg" />
+    <None Include="wwwroot\img\product_single_03.jpg" />
+    <None Include="wwwroot\img\product_single_04.jpg" />
+    <None Include="wwwroot\img\product_single_05.jpg" />
+    <None Include="wwwroot\img\product_single_06.jpg" />
+    <None Include="wwwroot\img\product_single_07.jpg" />
+    <None Include="wwwroot\img\product_single_08.jpg" />
+    <None Include="wwwroot\img\product_single_09.jpg" />
+    <None Include="wwwroot\img\product_single_10.jpg" />
+    <None Include="wwwroot\img\shop_01.jpg" />
+    <None Include="wwwroot\img\shop_02.jpg" />
+    <None Include="wwwroot\img\shop_03.jpg" />
+    <None Include="wwwroot\img\shop_04.jpg" />
+    <None Include="wwwroot\img\shop_05.jpg" />
+    <None Include="wwwroot\img\shop_06.jpg" />
+    <None Include="wwwroot\img\shop_07.jpg" />
+    <None Include="wwwroot\img\shop_08.jpg" />
+    <None Include="wwwroot\img\shop_09.jpg" />
+    <None Include="wwwroot\img\shop_10.jpg" />
+    <None Include="wwwroot\img\shop_11.jpg" />
+    <None Include="wwwroot\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\js\custom.js" />
+    <None Include="wwwroot\js\jquery-1.11.0.min.js" />
+    <None Include="wwwroot\js\jquery-migrate-1.2.1.min.js" />
+    <None Include="wwwroot\js\slick.min.js" />
+    <None Include="wwwroot\js\templatemo.js" />
+    <None Include="wwwroot\js\templatemo.min.js" />
+    <None Include="wwwroot\webfonts\fa-brands-400.eot" />
+    <None Include="wwwroot\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\webfonts\fa-brands-400.ttf" />
+    <None Include="wwwroot\webfonts\fa-brands-400.woff" />
+    <None Include="wwwroot\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\webfonts\fa-regular-400.eot" />
+    <None Include="wwwroot\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\webfonts\fa-regular-400.ttf" />
+    <None Include="wwwroot\webfonts\fa-regular-400.woff" />
+    <None Include="wwwroot\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\webfonts\fa-solid-900.eot" />
+    <None Include="wwwroot\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\webfonts\fa-solid-900.ttf" />
+    <None Include="wwwroot\webfonts\fa-solid-900.woff" />
+    <None Include="wwwroot\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\webfonts\slick.eot" />
+    <None Include="wwwroot\webfonts\slick.svg" />
+    <None Include="wwwroot\webfonts\slick.ttf" />
+    <None Include="wwwroot\webfonts\slick.woff" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+  </ItemGroup>
+
+</Project>
