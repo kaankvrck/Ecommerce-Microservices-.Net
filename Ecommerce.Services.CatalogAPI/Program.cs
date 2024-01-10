@@ -1,11 +1,17 @@
 using Ecommerce.Services.CatalogAPI.Data;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var conn = builder.Configuration.GetConnectionString("DefaultConnection");
-
+var keysFolder = builder.Configuration["DATA_PROTECTION_KEYS_FOLDER"];
+if (!string.IsNullOrEmpty(keysFolder))
+{
+    builder.Services.AddDataProtection()
+        .PersistKeysToFileSystem(new DirectoryInfo(keysFolder));
+}
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(conn));
 
 builder.Services.AddControllers();

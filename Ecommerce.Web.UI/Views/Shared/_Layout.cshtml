@@ -63,11 +63,28 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Shop">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                         </li>
+                    </ul>
+                    <ul>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Customer" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Customer" asp-action="Register">Register</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link " href="#">Hello @User.Identity.Name</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " asp-controller="Customer" asp-action="Logout">Logout</a>
+                            </li>
+                        }
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">

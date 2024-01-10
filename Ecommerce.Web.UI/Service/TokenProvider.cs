@@ -2,7 +2,7 @@
 using Ecommerce.Web.UI.Utility;
 using Newtonsoft.Json.Linq;
 
-namespace Mango.Web.Service
+namespace Ecommerce.Web.UI.Service
 {
     public class TokenProvider : ITokenProvider
     {

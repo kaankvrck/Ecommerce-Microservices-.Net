@@ -2,7 +2,7 @@ using Ecommerce.Services.CustomerAPI.Data;
 using Ecommerce.Services.CustomerAPI.Models;
 using Ecommerce.Services.CustomerAPI.Service;
 using Ecommerce.Services.CustomerAPI.Service.IService;
-using Mango.Services.AuthAPI.Service;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+var keysFolder = builder.Configuration["DATA_PROTECTION_KEYS_FOLDER"];
+if (!string.IsNullOrEmpty(keysFolder))
+{
+    builder.Services.AddDataProtection()
+        .PersistKeysToFileSystem(new DirectoryInfo(keysFolder));
+}
 
 builder.Services.AddDbContext<CustomerDbContext>(options => options.UseNpgsql(conn));
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));

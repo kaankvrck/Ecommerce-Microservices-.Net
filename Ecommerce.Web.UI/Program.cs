@@ -1,12 +1,18 @@
 using Ecommerce.Web.UI.Service;
 using Ecommerce.Web.UI.Service.IService;
 using Ecommerce.Web.UI.Utility;
-using Mango.Web.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var keysFolder = builder.Configuration["DATA_PROTECTION_KEYS_FOLDER"];
+if (!string.IsNullOrEmpty(keysFolder))
+{
+    builder.Services.AddDataProtection()
+        .PersistKeysToFileSystem(new DirectoryInfo(keysFolder));
+}
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
@@ -34,7 +40,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();

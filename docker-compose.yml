@@ -17,6 +17,9 @@ services:
         - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Server=customer_db;Port=5432;Database=CustomerDb; IntegratedSecurity=true;Pooling=True;
         - ASPNETCORE_URLS=http://+:80
         - ASPNETCORE_ENVIRONMENT=Development
+        - DATA_PROTECTION_KEYS_FOLDER=/keys
+    volumes:
+        - data-protection-keys:/keys
     networks:
         - dev
   customer_db:
@@ -45,6 +48,9 @@ services:
         - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Server=catalog_db;Port=5432;Database=CatalogDb; IntegratedSecurity=true;Pooling=True;
         - ASPNETCORE_URLS=http://+:80
         - ASPNETCORE_ENVIRONMENT=Development
+        - DATA_PROTECTION_KEYS_FOLDER=/keys
+    volumes:
+        - data-protection-keys:/keys
     networks:
         - dev
   catalog_db:
@@ -73,6 +79,9 @@ services:
         - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Server=order_db;Port=5432;Database=OrderDb; IntegratedSecurity=true;Pooling=True;
         - ASPNETCORE_URLS=http://+:80
         - ASPNETCORE_ENVIRONMENT=Development
+        - DATA_PROTECTION_KEYS_FOLDER=/keys
+    volumes:
+        - data-protection-keys:/keys
     networks:
         - dev
   order_db:
@@ -98,7 +107,12 @@ services:
     environment:
         - ASPNETCORE_URLS=http://+:80
         - ASPNETCORE_ENVIRONMENT=Development
+        - DATA_PROTECTION_KEYS_FOLDER=/keys
+    volumes:
+        - data-protection-keys:/keys
     networks:
         - dev
 volumes:
   app_data:
+  data-protection-keys:
+  

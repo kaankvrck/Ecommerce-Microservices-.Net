@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Mango.Services.AuthAPI.Service
+namespace Ecommerce.Services.CustomerAPI.Service
 {
     public class JwtTokenGenerator : IJwtTokenGenerator
     {
