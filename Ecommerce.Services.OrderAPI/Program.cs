@@ -1,12 +1,18 @@
 using Ecommerce.Services.OrderAPI.Common;
 using Ecommerce.Services.OrderAPI.Data;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var conn = builder.Configuration.GetConnectionString("DefaultConnection");
-
+var keysFolder = builder.Configuration["DATA_PROTECTION_KEYS_FOLDER"];
+if (!string.IsNullOrEmpty(keysFolder))
+{
+    builder.Services.AddDataProtection()
+        .PersistKeysToFileSystem(new DirectoryInfo(keysFolder));
+}
 builder.Services.AddDbContext<OrderDbContext>(options => options.UseNpgsql(conn));
 
 builder.Services.AddControllers();

@@ -1,5 +1,7 @@
 ﻿using Ecommerce.Services.CustomerAPI.Data;
 using Ecommerce.Services.CustomerAPI.Models;
+using Ecommerce.Services.CustomerAPI.Models.Dto;
+using Ecommerce.Services.CustomerAPI.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -8,40 +10,63 @@ using System.Xml.Linq;
 namespace Ecommerce.Services.CustomerAPI.Controllers
 {
 
+    [Route("api/customer")]
     [ApiController]
-    [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
 
-        private readonly ILogger<CustomerController> _logger;
-        private readonly CustomerDbContext _context;
+        private readonly ICustomerService _customerService;
+        private readonly IConfiguration _configuration;
+        protected ResponseDto _response;
 
-        public CustomerController(
-            ILogger<CustomerController> logger,
-            CustomerDbContext context
-            )
+        public CustomerController(ICustomerService customerService, IConfiguration configuration)
         {
-            _logger = logger;
-            _context = context;
+            _customerService = customerService;
+            _configuration = configuration;
+            _response = new();
         }
 
-        [HttpGet(Name = "GetAllCustomers")]
-        public async Task<IActionResult> Get()
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegistrationRequestDto model)
         {
-            var allCustomers = await _context.Customers.ToListAsync();
-            return Ok(allCustomers);
-        }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Customer customer)
-        {
-            if (ModelState.IsValid)
+            var errorMessage = await _customerService.Register(model);
+            if (!string.IsNullOrEmpty(errorMessage))
             {
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(Get), new { id = customer.Id }, customer);
+                _response.IsSuccess = false;
+                _response.Message = errorMessage;
+                return BadRequest(_response);
             }
-            return BadRequest(ModelState);
+            return Ok(_response);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto model)
+        {
+            var loginResponse = await _customerService.Login(model);
+            if (loginResponse.User == null)
+            {
+                _response.IsSuccess = false;
+                _response.Message = "Username or password is incorrect";
+                return BadRequest(_response);
+            }
+            _response.Result = loginResponse;
+            return Ok(_response);
+
+        }
+
+        [HttpPost("AssignRole")]
+        public async Task<IActionResult> AssignRole([FromBody] RegistrationRequestDto model)
+        {
+            var assignRoleSuccessful = await _customerService.AssignRole(model.Email, model.Role.ToUpper());
+            if (!assignRoleSuccessful)
+            {
+                _response.IsSuccess = false;
+                _response.Message = "Error encountered";
+                return BadRequest(_response);
+            }
+            return Ok(_response);
+
         }
     }
 }
