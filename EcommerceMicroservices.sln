@@ -17,7 +17,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Services.CatalogA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Services.OrderAPI", "Ecommerce.Services.OrderAPI\Ecommerce.Services.OrderAPI.csproj", "{6E782604-6355-4E09-970C-FBF8CE41F014}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Web.UI", "Ecommerce.Web.UI\Ecommerce.Web.UI.csproj", "{97D53635-C95F-43B6-9C3A-AA97D720D003}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Web.UI", "Ecommerce.Web.UI\Ecommerce.Web.UI.csproj", "{97D53635-C95F-43B6-9C3A-AA97D720D003}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6E782604-6355-4E09-970C-FBF8CE41F014} = {6E782604-6355-4E09-970C-FBF8CE41F014}
+		{BEF550A0-4D29-4D54-A084-91C563ED401B} = {BEF550A0-4D29-4D54-A084-91C563ED401B}
+		{F50F149E-D9A5-4793-A1CD-43D94BE40609} = {F50F149E-D9A5-4793-A1CD-43D94BE40609}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
