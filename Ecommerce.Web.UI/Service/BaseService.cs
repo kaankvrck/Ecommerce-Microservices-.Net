@@ -21,7 +21,7 @@ namespace Ecommerce.Web.UI.Service
         {
             try
             {
-                HttpClient client = _httpClientFactory.CreateClient("MicroserviceAPI");
+                HttpClient client = _httpClientFactory.CreateClient();
                 HttpRequestMessage message = new();
                 if (requestDto.ContentType == ContentType.MultipartFormData)
                 {
