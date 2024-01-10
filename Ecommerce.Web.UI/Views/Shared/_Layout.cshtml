@@ -50,8 +50,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
-                <div class="flex-fill">
+            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav" style="display: flex; justify-content: space-between;">
+                <div class="flex-fill" style="flex-grow: 1;">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -66,7 +66,9 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                         </li>
                     </ul>
-                    <ul>
+                </div>
+                <div style="flex-grow: 1; display: flex; justify-content: flex-end;">
+                    <ul class="nav navbar-nav d-flex justify-content-end mr-lg-auto">
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -87,6 +89,7 @@
                         }
                     </ul>
                 </div>
+            </div>
                 <div class="navbar align-self-center d-flex">
                     <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                         <div class="input-group">
