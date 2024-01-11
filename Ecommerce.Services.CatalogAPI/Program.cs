@@ -14,6 +14,9 @@ if (!string.IsNullOrEmpty(keysFolder))
 }
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(conn));
 
+// Register the ICatalogRepository
+builder.Services.AddScoped<ICatalogRepository, CatalogRepository>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -33,5 +36,16 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//try-catch database testi için eklenmiþtir. Silinecek!
+try
+{
+    CatalogDbInit.InitDb(app);
+}
+catch (Exception e)
+{
+    Console.WriteLine(e);
+}
+
 
 app.Run();
