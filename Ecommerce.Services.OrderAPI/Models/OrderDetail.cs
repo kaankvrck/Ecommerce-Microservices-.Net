@@ -10,9 +10,9 @@ namespace Ecommerce.Services.OrderAPI.Models
         public int quantity { get; set; }
         public decimal price { get; set; }
         public DateTime createddate { get; set; } = DateTime.SpecifyKind(TimeHelper.GetCurrentTurkeyTime(), DateTimeKind.Utc);
-        public int createdby { get; set; }
+        public string createdby { get; set; }
         public DateTime? modifieddate { get; set; }
-        public int? modifiedby { get; set; }
+        public string? modifiedby { get; set; }
         public bool isdeleted { get; set; }
     }
 }

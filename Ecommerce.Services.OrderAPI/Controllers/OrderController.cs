@@ -12,70 +12,73 @@ namespace Ecommerce.Services.OrderAPI.Controllers
     public class OrderController : ControllerBase
     {
         private readonly OrderDbContext _context;
-        //ApiService için eklendi
         private readonly ApiServiceHelper _apiServiceHelper;
 
         public OrderController(OrderDbContext context, ApiServiceHelper apiServiceHelper)
         {
             _context = context;
-            //ApiService için eklendi
             _apiServiceHelper = apiServiceHelper;
         }
 
         [HttpPost("CreateOrder")]
+        //[Authorize]
         public async Task CreateOrder([FromBody] CreateOrderRequest request)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
+            var authorizationHeader = HttpContext.Request.Headers["Authorization"].ToString();
+
+            var tokenPayload = JwtTokenHelper.GetJwtPayload(authorizationHeader);
+            if (tokenPayload != null) 
             {
-                string name = "mert", surname = "Alc", phonenumber = "25354585", email = "dsadsdf@ege.edu.tr", address = " Ankara Turkey ";
-
-                decimal price = 30;
-
-                Order order = new Order()
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
                 {
-                    customerid = request.CustomerId,
-                    name = name,
-                    surname = surname,
-                    phonenumber = phonenumber,
-                    email = email,
-                    address = address,
-                    totalprice = price * request.ProductQuantity,
-                    statusid = (int)Enums.OrderStatus.Created,
-                    createdby = request.CustomerId
-                };
+                    decimal price = 30;
+                    var customerId = tokenPayload.FirstOrDefault(p => p.Key == "sub").Value.ToString();
+                    Order order = new Order()
+                    {
+                        customerid = customerId,
+                        name = tokenPayload.FirstOrDefault(p => p.Key == "name").Value.ToString(),
+                        phonenumber = request.PhoneNumber,
+                        email = tokenPayload.FirstOrDefault(p => p.Key == "email").Value.ToString(),
+                        address = request.Address,
+                        totalprice = price * request.ProductQuantity,
+                        statusid = (int)Enums.OrderStatus.Created,
+                        createdby = customerId
+                    };
 
-                _context.tb_order.Add(order);
-                await _context.SaveChangesAsync();
+                    _context.tb_order.Add(order);
+                    await _context.SaveChangesAsync();
 
-                int orderId = order.id;
+                    int orderId = order.id;
 
-                OrderDetail orderDetail = new OrderDetail()
+                    OrderDetail orderDetail = new OrderDetail()
+                    {
+                        orderid = orderId,
+                        productid = request.ProductId,
+                        quantity = request.ProductQuantity,
+                        price = price,
+                        createdby = customerId
+                    };
+
+                    _context.tb_order_detail.Add(orderDetail);
+                    await _context.SaveChangesAsync();
+
+                    // Commit the transaction if everything is successful
+                    await transaction.CommitAsync();
+
+                    Console.WriteLine("Transaction committed successfully.");
+                }
+                catch (Exception ex)
                 {
-                    orderid = orderId,
-                    productid = request.ProductId,
-                    quantity = request.ProductQuantity,
-                    price = price,
-                    createdby = request.CustomerId
-                };
-
-                _context.tb_order_detail.Add(orderDetail);
-                await _context.SaveChangesAsync();
-
-                // Commit the transaction if everything is successful
-                await transaction.CommitAsync();
-
-                Console.WriteLine("Transaction committed successfully.");
+                    await transaction.RollbackAsync();
+                    Console.WriteLine($"Transaction rolled back. Error: {ex.Message}");
+                }
             }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
-                Console.WriteLine($"Transaction rolled back. Error: {ex.Message}");
-            }
+            
         }
 
         [HttpGet("OrderList/{customerId}")]
-        public async Task<List<OrderListReponse>> OrderList(int customerId)
+        public async Task<List<OrderListReponse>> OrderList(string customerId)
         {
             var orderList = await (from order in _context.tb_order
                                    join orderDetail in _context.tb_order_detail on order.id equals orderDetail.orderid
@@ -148,9 +151,6 @@ namespace Ecommerce.Services.OrderAPI.Controllers
             }
         }
 
-
-
-
         //Just for testing
         [HttpGet("external")]
         public async Task<ActionResult> GetHttpApiData()
@@ -172,9 +172,6 @@ namespace Ecommerce.Services.OrderAPI.Controllers
 
             return Ok(getData);
         }
-
-
-
     }
 
 }
