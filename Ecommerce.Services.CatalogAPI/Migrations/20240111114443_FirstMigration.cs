@@ -8,24 +8,30 @@ namespace Ecommerce.Services.CatalogAPI.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<decimal>(
-                name: "price",
-                table: "tb_catalog",
-                type: "numeric",
-                nullable: false,
-                oldClrType: typeof(double),
-                oldType: "double precision");
+            migrationBuilder.CreateTable(
+                name: "tb_catalog",
+                columns: table => new
+                {
+                    productid = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "varchar(255)", nullable: false),
+                    category = table.Column<string>(type: "varchar(255)", nullable: false),
+                    brand = table.Column<string>(type: "varchar(255)", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: true),
+                    stock = table.Column<int>(type: "integer", nullable: false),
+                    price = table.Column<decimal>(type: "numeric", nullable: false),
+                    image = table.Column<string>(type: "varchar(255)", nullable: false),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tb_catalog", x => x.productid);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<double>(
-                name: "price",
-                table: "tb_catalog",
-                type: "double precision",
-                nullable: false,
-                oldClrType: typeof(decimal),
-                oldType: "numeric");
+            migrationBuilder.DropTable(
+                name: "tb_catalog");
         }
     }
 }
