@@ -82,5 +82,18 @@ namespace Ecommerce.Services.CustomerAPI.Controllers
             _response.Result = userResponse;
             return Ok(_response);
         }
+
+        [HttpPost("UpdateProfileInformation")]
+        public async Task<IActionResult> UpdateProfileInformation([FromBody] UserDto model)
+        {
+            bool updateProfile = await _customerService.UpdateProfileInformation(model);
+            if (!updateProfile)
+            {
+                _response.IsSuccess = false;
+                _response.Message = "Error";
+                return BadRequest(_response);
+            }
+            return Ok(_response);
+        }
     }
 }

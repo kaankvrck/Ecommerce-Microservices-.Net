@@ -1,4 +1,4 @@
-@* @model UserProfileModel *@
+@model UserDto
 
 @{
     ViewData["Title"] = "Profile Page";
@@ -13,20 +13,19 @@
                     <table class="table table-striped text-white">
                         <tr>
                             <td class="text-white">Name</td>
-                            <td class="text-white">Birol ÇİLOĞLUGİL</td>
+                            <td class="text-white">@Model.Name</td>
                         </tr>
                         <tr>
                             <td class="text-white">Email</td>
-                            <td class="text-white">birol.ciloglugil@ege.edu.tr</td>
+                            <td class="text-white">@Model.Email</td>
                         </tr>
                         <tr>
                             <td class="text-white">Phone</td>
-                            <td class="text-white">+90 505 200 00 00</td>
+                            <td class="text-white">@Model.PhoneNumber</td>
                         </tr>
                         <tr>
                             <td class="text-white">Address </td>
-                            <td class="text-white">Ege Üniversitesi Bilgisayar Mühendisliği Kazımdirik Mahallesi, Üniversite Cad. No:9/17,
-                                35100 Bornova Metro Karşısı, Bornova/İZMİR</td>
+                            <td class="text-white">@Model.Address</td>
                         </tr>
 
                     </table>
@@ -39,16 +38,3 @@
     </div>
 </section>
 
-
-@* <div id="profile-container">
-<dl>
-<dt>First Name:</dt>
-<dd>@Model.FirstName</dd>
-
-<dt>Last Name:</dt>
-<dd>@Model.LastName</dd>
-
-<dt>Email:</dt>
-<dd>@Model.Email</dd>
-</dl>
-</div> *@

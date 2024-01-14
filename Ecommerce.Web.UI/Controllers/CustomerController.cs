@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Web.UI.Models;
+using Ecommerce.Web.UI.Service;
 using Ecommerce.Web.UI.Service.IService;
 using Ecommerce.Web.UI.Utility;
 using Microsoft.AspNetCore.Authentication;
@@ -7,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using System.Security.Claims;
+using System.Security.Principal;
 
 namespace Ecommerce.Web.UI.Controllers
 {
@@ -106,6 +109,50 @@ namespace Ecommerce.Web.UI.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetPersonalInformation()
+        {
+            var claim = User.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Sub);
+
+            if (claim == null || string.IsNullOrEmpty(claim.Value))
+            {
+                return RedirectToAction("login", "Customer");
+            }
+
+            var customerID = claim.Value;
+
+            ResponseDto response = await _customerService.GetPersonalInformation(customerID);
+            if (response == null || response.Result == null)
+            {
+                return NotFound(response.Message ?? "User or result not found!");
+            }
+            if (!response.IsSuccess)
+            {
+                return BadRequest(response.Message ?? "An error occurred while fetching user data.");
+            }
+
+            UserDto userDto = JsonConvert.DeserializeObject<UserDto>(Convert.ToString(response.Result));
+            return View("Profile", userDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfileInformation(UserDto userDto)
+        {
+            if (ModelState.IsValid)
+            {
+                ResponseDto response = await _customerService.UpdateProfileInformation(userDto);
+                if (response != null && response.IsSuccess)
+                {
+                    // Örneğin, başarılı bir mesaj göstermek veya başka bir sayfaya yönlendirmek
+                    return RedirectToAction("SuccessPage");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Profil güncellenirken bir hata oluştu.");
+                }
+            }
+            return View(userDto);
+        }
 
         private async Task SignInUser(LoginResponseDto model)
         {
