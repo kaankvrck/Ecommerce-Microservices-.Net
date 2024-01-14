@@ -16,18 +16,17 @@ namespace Ecommerce.Services.OrderAPI.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    customerid = table.Column<int>(type: "integer", nullable: false),
+                    customerid = table.Column<string>(type: "text", nullable: false),
                     name = table.Column<string>(type: "text", nullable: true),
-                    surname = table.Column<string>(type: "text", nullable: true),
                     phonenumber = table.Column<string>(type: "text", nullable: true),
                     email = table.Column<string>(type: "text", nullable: true),
                     address = table.Column<string>(type: "text", nullable: true),
                     totalprice = table.Column<decimal>(type: "numeric", nullable: false),
                     statusid = table.Column<int>(type: "integer", nullable: false),
                     createddate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    createdby = table.Column<int>(type: "integer", nullable: false),
+                    createdby = table.Column<string>(type: "text", nullable: false),
                     modifieddate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    modifiedby = table.Column<int>(type: "integer", nullable: true),
+                    modifiedby = table.Column<string>(type: "text", nullable: true),
                     isdeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -46,9 +45,9 @@ namespace Ecommerce.Services.OrderAPI.Migrations
                     quantity = table.Column<int>(type: "integer", nullable: false),
                     price = table.Column<decimal>(type: "numeric", nullable: false),
                     createddate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    createdby = table.Column<int>(type: "integer", nullable: false),
+                    createdby = table.Column<string>(type: "text", nullable: false),
                     modifieddate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    modifiedby = table.Column<int>(type: "integer", nullable: true),
+                    modifiedby = table.Column<string>(type: "text", nullable: true),
                     isdeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>

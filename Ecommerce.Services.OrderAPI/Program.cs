@@ -45,6 +45,20 @@ builder.Services.AddAuthentication(options =>
         });
 builder.Services.AddAuthorization();
 
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        // Allow requests from http://localhost:7000
+        builder.WithOrigins("http://localhost:7000")
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,6 +67,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
