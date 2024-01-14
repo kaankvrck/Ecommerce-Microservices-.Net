@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "Order Page";
+}
+
+<style>
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #45a049;
+        }
+</style>
+
+<<h1>Sipariş Bilgiler</h1>
+<h2>@ViewBag.JwtToken</h2>
+
+<table>
+    <tr>
+        <th>Ürün Kodu</th>
+        <th>Ürün İsmi</th>
+        <th>Adet</th>
+        <th>Birim Fiyat</th>
+    </tr>
+    <tr>
+        <td id="productId">@ViewBag.ProductId</td>
+        <td id="productName">@ViewBag.ProductName</td>
+        <td id="productQuantity">@ViewBag.Quantity</td>
+        <td id="productPrice">@ViewBag.Price</td>
+    </tr>
+    
+</table>
+
+<h2>Customer Information</h2>
+
+<form>
+    <label for="customerName">Müşteri Adı:</label>
+    <input type="text" id="customerName" name="customerName" value="@ViewBag.AdSoyad" readonly>
+
+    <label for="customerAddress">Adres:</label>
+    <input type="text" id="customerAddress" name="customerAddress" required>
+
+    <label for="customerPhone">Telefon:</label>
+    <input type="text" id="customerPhone" name="customerPhone" required>
+
+    <button type="button" onclick="submitOrder()">@ViewBag.Total TL - Siparişi Tamamla</button>
+</form>
+
+
+<script>
+    function getCookie(name) {
+
+        var cookieName = name + "=";
+
+        var decodedCookie = decodeURIComponent(document.cookie);
+
+        var cookieArray = decodedCookie.split(';');
+
+        for (var i = 0; i < cookieArray.length; i++) {
+
+            var cookie = cookieArray[i];
+
+            while (cookie.charAt(0) == ' ') {
+
+                cookie = cookie.substring(1);
+
+            }
+
+            if (cookie.indexOf(cookieName) == 0) {
+
+                return cookie.substring(cookieName.length, cookie.length);
+
+            }
+
+        }
+
+        return "";
+
+    }
+    function submitOrder() {
+        // Retrieve values from the form
+        var phoneNO = document.getElementById('customerPhone').value;
+        var addres = document.getElementById('customerAddress').value;
+        var productID = @ViewBag.ProductId;
+        var productQ = @ViewBag.Quantity;
+        console.log(phoneNO)
+        // Construct the address object
+        var detailForOrder = {
+            phoneNumber: phoneNO,
+            address: addres,
+            productId: productID,
+            productQuantity: productQ
+        };
+
+        console.log(detailForOrder);
+       
+        // Convert the address object to JSON
+        var jsonData = JSON.stringify(detailForOrder);
+        console.log(jsonData)
+        // Send the JSON data to the API endpoint using Fetch API
+        fetch('http://localhost:7003/api/orders/CreateOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getCookie("JWTToken")
+            },
+            body: jsonData
+        })
+            .then(data => {
+                alert("Siparişiniz Oluşmuştur!")
+                // Handle the response from the server
+                // Optionally, you can redirect the user to a confirmation page
+                // window.location.href = 'confirmation.html';
+            })
+            .catch(error => {
+                alert("Siparişiniz Oluşmadı!")
+            });
+    }
+</script>

@@ -1,7 +1,10 @@
 using Ecommerce.Services.OrderAPI.Common;
 using Ecommerce.Services.OrderAPI.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,38 @@ builder.Services.AddSwaggerGen();
 // For ApiService.cs TEST!
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<ApiServiceHelper>();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false, // Set to true if you want to validate the issuer
+                ValidateAudience = false, // Set to true if you want to validate the audience
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("bcorderapi")),
+                // Adjust other validation parameters as needed
+            };
+        });
+builder.Services.AddAuthorization();
+
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        // Allow requests from http://localhost:7000
+        builder.WithOrigins("http://localhost:7000")
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -33,8 +68,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
+
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
