@@ -7,5 +7,7 @@ namespace Ecommerce.Web.UI.Service.IService
         Task<ResponseDto?> LoginAsync(LoginRequestDto loginRequestDto);
         Task<ResponseDto?> RegisterAsync(RegistrationRequestDto registrationRequestDto);
         Task<ResponseDto?> AssignRoleAsync(RegistrationRequestDto registrationRequestDto);
+        Task<ResponseDto?> GetPersonalInformation(string CustomerID);
+        Task<ResponseDto?> UpdateProfileInformation(UserDto userDto);
     }
 }

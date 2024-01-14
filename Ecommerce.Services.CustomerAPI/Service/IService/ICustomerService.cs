@@ -8,5 +8,6 @@ namespace Ecommerce.Services.CustomerAPI.Service.IService
         Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto);
         Task<bool> AssignRole(string email, string roleName);
         Task<UserDto> GetPersonelInformation(string customerID);
+        Task<bool> UpdateProfileInformation(UserDto model);
     }
 }

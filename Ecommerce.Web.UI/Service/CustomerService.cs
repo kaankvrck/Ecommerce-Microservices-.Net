@@ -42,13 +42,23 @@ namespace Ecommerce.Web.UI.Service
             }, withBearer: false);
         }
 
-        public async Task<ResponseDto?> GetPersonalInformation(UserDto userDto)
+        public async Task<ResponseDto?> GetPersonalInformation(string customerID)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = SD.ApiType.GET,
+                Data = customerID,
+                Url = SD.CustomerAPIBase + "/api/customer/GetPersonalInformation?customerId="+ customerID
+            }, withBearer: false);
+        }
+
+        public async Task<ResponseDto?> UpdateProfileInformation(UserDto userDto)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = SD.ApiType.POST,
                 Data = userDto,
-                Url = SD.CustomerAPIBase + "/api/customer/GetPersonalInformation"
+                Url = SD.CustomerAPIBase + "/api/customer/UpdateProfileInformation"
             }, withBearer: false);
         }
     }

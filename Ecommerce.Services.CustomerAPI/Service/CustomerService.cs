@@ -136,5 +136,21 @@ namespace Ecommerce.Services.CustomerAPI.Service
             }
             return null;
         }
+
+        public async Task<bool> UpdateProfileInformation(UserDto model)
+        {
+            var user = _db.CustomerUsers.FirstOrDefault(u => u.Id == model.ID);
+            if (user != null)
+            {
+                user.Email = model.Email;
+                user.Name = model.Name;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Address = model.Address;
+
+                _db.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 }
