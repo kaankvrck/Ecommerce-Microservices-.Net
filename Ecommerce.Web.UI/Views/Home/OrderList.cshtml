@@ -1,0 +1,187 @@
+﻿@{
+    ViewData["Title"] = "Order List Page";
+}
+
+<style>
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #45a049;
+        }
+</style>
+
+<h1>Siparişlerim</h1>
+
+<table id="dataTable" border="1">
+    <thead>
+        <tr>
+            <th>Ürün Adı</th>
+            <th>Miktar</th>
+            <th>Fiyat</th>
+            <th>Durum</th>
+            <th>Tarih</th>
+            <th>Toplam</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var xhr = new XMLHttpRequest();
+        var url = "@ViewBag.RequestURL";
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var data = JSON.parse(xhr.responseText);
+                populateTable(data);
+            }
+        };
+
+        xhr.open("GET", url, true);
+        xhr.send();
+    });
+
+    function populateTable(data) {
+        var tableBody = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
+
+        for (var i = 0; i < data.length; i++) {
+            var row = tableBody.insertRow(i);
+
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+
+            cell1.innerHTML = data[i].productName;
+            cell2.innerHTML = data[i].quantity;
+            cell3.innerHTML = data[i].price;
+            cell4.innerHTML = data[i].statusName;
+            cell5.innerHTML = data[i].createdDate;
+            cell6.innerHTML = data[i].totalPrice;
+
+        }
+    }
+
+</script>
+
+<!-- End Content -->
+<div>
+    <form id="orderForm">
+        <input type="hidden" name="adsoyad" value="@ViewBag.AdSoyad" />
+        <input type="hidden" name="address" value="@ViewBag.Address" />
+        <input type="hidden" name="productname" value="@ViewBag.ProductName" />
+        <input type="hidden" name="quantity" value="@ViewBag.Quantity" />
+        <input type="hidden" name="total" value="@ViewBag.Quantity" />
+    </form>
+</div>
+
+
+<!-- Start Brands -->
+<section class="bg-light py-5">
+    <div class="container my-4">
+        <div class="row text-center py-3 mx-auto">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1">Our Brands</h1>
+                <p>
+                    Encompass a diverse and curated selection of high-quality products, each reflecting a commitment to
+                    excellence and innovation
+                </p>
+                <h1 class="display-4">Ege University</h1>
+                <p class="lead">
+                    Peaceful University, High-Quality Education, Bright Future
+                </p>
+            </div>
+        </div>
+
+        <div class="row text-center mx-auto">
+            <div class="col-12 mb-4">
+                <!-- Add the content for the logo here -->
+                <a href="#">
+                    <img class="img-fluid brand-img" src="~/img/Logo_Ege_Uni.png" alt="University Logo" style="max-width: 10%;">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*Cookie'den token a ulaşmak için ama son sürümde kullanılmıyor.*@
+<script>
+    function getCookie(name) {
+
+        var cookieName = name + "=";
+
+        var decodedCookie = decodeURIComponent(document.cookie);
+
+        var cookieArray = decodedCookie.split(';');
+
+        for (var i = 0; i < cookieArray.length; i++) {
+
+            var cookie = cookieArray[i];
+
+            while (cookie.charAt(0) == ' ') {
+
+                cookie = cookie.substring(1);
+
+            }
+
+            if (cookie.indexOf(cookieName) == 0) {
+
+                return cookie.substring(cookieName.length, cookie.length);
+
+            }
+
+        }
+
+        return "";
+
+    }
+    
+
+        
+</script>

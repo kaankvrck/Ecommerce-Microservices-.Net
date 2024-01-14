@@ -25,29 +25,27 @@ namespace Ecommerce.Services.OrderAPI.Data
             {
                 new Order()
                 {
-                    customerid = 1,
+                    customerid = "1",
                     name = "John",
-                    surname = "Nhoj",
                     phonenumber = "1234567890",
                     email = "1234567890@ege.edu",
                     address = "Istanbul TR 34000",
                     totalprice = 1452.54m,
                     statusid = 0,
                     createddate = DateTime.SpecifyKind(TimeHelper.GetCurrentTurkeyTime(), DateTimeKind.Utc),
-                    createdby = 1
+                    createdby = "1"
                 },
                 new Order()
                 {
-                    customerid = 2,
+                    customerid = "2",
                     name = "Tom",
-                    surname = "Mot",
                     phonenumber = "1234562890",
                     email = "1265567890@ege.edu",
                     address = "Izmir TR 34000",
                     totalprice = 1982,
                     statusid = 0,
                     createddate = DateTime.SpecifyKind(TimeHelper.GetCurrentTurkeyTime(), DateTimeKind.Utc),
-                    createdby = 1
+                    createdby = "2"
                 }
             };
 

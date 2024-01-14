@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Services.OrderAPI.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    [Migration("20240109183137_order-structure")]
+    [Migration("20240114173710_order-structure")]
     partial class orderstructure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,14 +35,16 @@ namespace Ecommerce.Services.OrderAPI.Migrations
                     b.Property<string>("address")
                         .HasColumnType("text");
 
-                    b.Property<int>("createdby")
-                        .HasColumnType("integer");
+                    b.Property<string>("createdby")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("createddate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("customerid")
-                        .HasColumnType("integer");
+                    b.Property<string>("customerid")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("email")
                         .HasColumnType("text");
@@ -50,8 +52,8 @@ namespace Ecommerce.Services.OrderAPI.Migrations
                     b.Property<bool>("isdeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("modifiedby")
-                        .HasColumnType("integer");
+                    b.Property<string>("modifiedby")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("modifieddate")
                         .HasColumnType("timestamp with time zone");
@@ -64,9 +66,6 @@ namespace Ecommerce.Services.OrderAPI.Migrations
 
                     b.Property<int>("statusid")
                         .HasColumnType("integer");
-
-                    b.Property<string>("surname")
-                        .HasColumnType("text");
 
                     b.Property<decimal>("totalprice")
                         .HasColumnType("numeric");
@@ -84,8 +83,9 @@ namespace Ecommerce.Services.OrderAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("createdby")
-                        .HasColumnType("integer");
+                    b.Property<string>("createdby")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("createddate")
                         .HasColumnType("timestamp with time zone");
@@ -93,8 +93,8 @@ namespace Ecommerce.Services.OrderAPI.Migrations
                     b.Property<bool>("isdeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("modifiedby")
-                        .HasColumnType("integer");
+                    b.Property<string>("modifiedby")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("modifieddate")
                         .HasColumnType("timestamp with time zone");
