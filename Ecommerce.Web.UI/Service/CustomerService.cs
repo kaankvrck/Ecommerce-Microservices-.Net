@@ -41,5 +41,15 @@ namespace Ecommerce.Web.UI.Service
                 Url = SD.CustomerAPIBase + "/api/customer/register"
             }, withBearer: false);
         }
+
+        public async Task<ResponseDto?> GetPersonalInformation(UserDto userDto)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = SD.ApiType.GET,
+                Data = userDto,
+                Url = SD.CustomerAPIBase + "/api/customer/GetPersonalInformation"
+            }, withBearer: false);
+        }
     }
 }
