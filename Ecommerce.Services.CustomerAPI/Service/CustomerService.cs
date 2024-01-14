@@ -118,5 +118,23 @@ namespace Ecommerce.Services.CustomerAPI.Service
             }
             return "Error Encountered";
         }
+
+        public async Task<UserDto> GetPersonelInformation(string customerID)
+        {
+            var user = _db.CustomerUsers.FirstOrDefault(u => u.Id == customerID);
+            if (user != null)
+            {
+                UserDto userDto = new()
+                {
+                    Email = user.Email,
+                    ID = user.Id,
+                    Name = user.Name,
+                    PhoneNumber = user.PhoneNumber,
+                    Address = user.Address
+                };
+                return userDto;
+            }
+            return null;
+        }
     }
 }

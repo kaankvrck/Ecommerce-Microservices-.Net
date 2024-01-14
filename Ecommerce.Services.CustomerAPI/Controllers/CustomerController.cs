@@ -68,5 +68,19 @@ namespace Ecommerce.Services.CustomerAPI.Controllers
             return Ok(_response);
 
         }
+
+        [HttpGet("GetPersonalInformation")]
+        public async Task<IActionResult> GetPersonalInformation(string customerId)
+        {
+            var userResponse = await _customerService.GetPersonelInformation(customerId);
+            if (userResponse == null)
+            {
+                _response.IsSuccess = false;
+                _response.Message = "User not found!";
+                return BadRequest(_response);
+            }
+            _response.Result = userResponse;
+            return Ok(_response);
+        }
     }
 }
