@@ -1,0 +1,92 @@
+﻿@model UserDto
+@{
+    ViewData["Title"] = "Order Detail Page";
+}
+
+<section class="container-fluid py-5">
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mb-4">Sipariş Detayı</h2>
+                <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="bg-green text-white">
+                        <tr>
+                            <th>Ürün Kodu</th>
+                            <th>Ürün İsmi</th>
+                            <th>Adet</th>
+                            <th>Birim Fiyat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="productId">@ViewBag.ProductId</td>
+                            <td id="productName">@ViewBag.ProductName</td>
+                            <td id="productQuantity">@ViewBag.Quantity</td>
+                            <td id="productPrice">@ViewBag.Price</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <form method="post" asp-page-handler="SubmitForm">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="firstName">İsim</label>
+                        <input type="text" class="form-control" id="customerName" name="customerName" value="@Model.Name" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="phoneNumber">Telefon</label>
+                        <input type="text" class="form-control" id="customerPhone" name="customerPhone" value="@Model.PhoneNumber" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input type="email" class="form-control" id="customerEmail" name="customerEmail" value="@Model.Email" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="address">Adres</label>
+                    <input type="text" class="form-control" id="customerAddress" name="customerAddress" value="@Model.Address" readonly>
+                </div>
+                <div class="d-flex justify-content-end">
+                <div class="col-md-4 text-center">
+                    <div class="col-md-12 text-center">
+                        <h2 class="mb-4">@ViewBag.Total TL</h2>
+
+                            <a asp-controller="Order" asp-action="Checkout">Alışverişi tamamla</a>
+                    </div>
+                </div>
+                </div>
+            </form>
+            <div class="mb-3 text-center">
+                <a asp-controller="Order" asp-action="Checkout">Alışverişi tamamla</a>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<<style>
+     body {
+         background-color: #f8f9fa;
+     }
+
+     .bg-green {
+         background-color: #28a745;
+         color: #fff;
+     }
+
+     .checkout-btn {
+         margin-top: 20px;
+     }
+
+     /* Adjusted width of customer information table */
+     .customer-info-table {
+         max-width: 400px;
+         width: 100%;
+     }
+</style>

@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Services.OrderAPI.Common;
 using Ecommerce.Services.OrderAPI.Data;
 using Ecommerce.Services.OrderAPI.Models;
+using Ecommerce.Services.OrderAPI.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,16 +14,18 @@ namespace Ecommerce.Services.OrderAPI.Controllers
     {
         private readonly OrderDbContext _context;
         private readonly ApiServiceHelper _apiServiceHelper;
+        protected ResponseDto _response;
 
         public OrderController(OrderDbContext context, ApiServiceHelper apiServiceHelper)
         {
             _context = context;
             _apiServiceHelper = apiServiceHelper;
+            _response = new();
         }
 
         [HttpPost("CreateOrder")]
         //[Authorize]
-        public async Task CreateOrder([FromBody] CreateOrderRequest request)
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
         {
             var authorizationHeader = HttpContext.Request.Headers["Authorization"].ToString();
 
@@ -33,6 +36,7 @@ namespace Ecommerce.Services.OrderAPI.Controllers
                 try
                 {
                     decimal price = 30;
+                    // check stock ıf success return ok else throw exceptıon
                     var customerId = tokenPayload.FirstOrDefault(p => p.Key == "sub").Value.ToString();
                     Order order = new Order()
                     {
@@ -63,18 +67,23 @@ namespace Ecommerce.Services.OrderAPI.Controllers
                     _context.tb_order_detail.Add(orderDetail);
                     await _context.SaveChangesAsync();
 
+                    // update stock ıf not success throw exceptıon 
                     // Commit the transaction if everything is successful
                     await transaction.CommitAsync();
-
-                    Console.WriteLine("Transaction committed successfully.");
+                    return Ok(_response);
                 }
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
-                    Console.WriteLine($"Transaction rolled back. Error: {ex.Message}");
+                    _response.IsSuccess = false;
+                    _response.Message = ex.Message;
+                    return BadRequest(_response);
                 }
             }
-            
+            else
+            {
+                return BadRequest(_response);
+            }
         }
 
         [HttpGet("OrderList/{customerId}")]
