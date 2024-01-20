@@ -21,5 +21,15 @@ namespace Ecommerce.Web.UI.Service
                 Url = SD.OrderAPIBase + "/api/orders/CreateOrder"
             });
         }
+
+        public async Task<ResponseDto?> GetMyOrders(string customerID)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = SD.ApiType.GET,
+                Data = customerID,
+                Url = SD.OrderAPIBase + "/api/orders/GetMyOrders?customerId=" + customerID
+            });
+        }
     }
 }

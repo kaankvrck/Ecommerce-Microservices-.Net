@@ -57,24 +57,6 @@ namespace Ecommerce.Web.UI.Controllers
             return View("OrderDetail", userDto);
         }
 
-        [HttpGet]
-        public IActionResult MyOrders()
-        {
-            var claim = User.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Sub);
-
-            if (claim == null || string.IsNullOrEmpty(claim.Value))
-            {
-                return RedirectToAction("login", "Customer");
-            }
-
-
-            var customerId = claim.Value;
-            string requestUrl = "http://localhost:7003/api/orders/OrderList/";
-            ViewBag.CustomerId = customerId;
-            ViewBag.RequestURL = $"{requestUrl}{customerId}";
-            return View("MyOrders");
-
-        }
 
         public async Task<IActionResult> Checkout()
         {
@@ -93,7 +75,7 @@ namespace Ecommerce.Web.UI.Controllers
             {
                 PhoneNumber = userDto.PhoneNumber,
                 Address = userDto.Address,
-                ProductId = 12542,
+                ProductId = 4,
                 ProductQuantity = 2
 
             };
@@ -101,18 +83,38 @@ namespace Ecommerce.Web.UI.Controllers
 
             if (responseDto != null && responseDto.IsSuccess)
             {
-                return RedirectToAction("Index", "MyOrders");
+                return RedirectToAction("GetMyOrders", "Order");
             }
             else
             {
                 return RedirectToPage("/BadRequest");
             }
 
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetMyOrders()
+        {
+            var claim = User.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Sub);
+
+            if (claim == null || string.IsNullOrEmpty(claim.Value))
+            {
+                return RedirectToAction("login", "Customer");
+            }
+            var customerID = claim.Value;
+
+            ResponseDto response = await _orderService.GetMyOrders(customerID);
+            if (response == null || response.Result == null)
+            {
+                return NotFound(response.Message ?? "User or result not found!");
+            }
+            if (!response.IsSuccess)
+            {
+                return BadRequest(response.Message ?? "An error occurred while fetching user data.");
+            }
+
+            List<MyOrdersResponseDto> myOrders = JsonConvert.DeserializeObject<List<MyOrdersResponseDto>>(Convert.ToString(response.Result));
+            return View("MyOrders", myOrders);
 
         }
-
-
-
-
     }
 }

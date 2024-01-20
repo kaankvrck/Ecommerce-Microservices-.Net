@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Order List Page";
+﻿@model List<MyOrdersResponseDto>;
+@{
+    ViewData["Title"] = "My Orders";
 }
 
 <style>
@@ -65,66 +66,20 @@
         </tr>
     </thead>
     <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.ProductName</td>
+                <td>@order.Quantity</td>
+                <td>@order.Price</td>
+                <td>@order.StatusName</td>
+                <td>@order.CreatedDate</td>
+                <td>@order.TotalPrice</td>
+            </tr>
+        }
     </tbody>
 </table>
 
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var xhr = new XMLHttpRequest();
-        var url = "@ViewBag.RequestURL";
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                var data = JSON.parse(xhr.responseText);
-                populateTable(data);
-            }
-        };
-
-        xhr.open("GET", url, true);
-        xhr.send();
-    });
-   
-    function populateTable(data) {
-        var tableBody = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
-
-
-        for (var i = 0; i < data.length; i++) {
-            var row = tableBody.insertRow(i);
-
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
-            var cell6 = row.insertCell(5);
-
-            cell1.innerHTML = data[i].productName;
-            cell2.innerHTML = data[i].quantity;
-            cell3.innerHTML = data[i].price;
-            cell4.innerHTML = data[i].statusName;
-            const timestampString = data[i].createdDate;
-            const timestamp = new Date(timestampString);
-            const date = timestamp.toISOString().split('T')[0];
-            const hour = timestamp.toISOString().split('T')[1].split('.')[0];
-            cell5.innerHTML = date + " - " + hour;
-            cell6.innerHTML = data[i].totalPrice;
-
-        }
-    }
-
-</script>
-
-<!-- End Content -->
-<div>
-    <form id="orderForm">
-        <input type="hidden" name="adsoyad" value="@ViewBag.AdSoyad" />
-        <input type="hidden" name="address" value="@ViewBag.Address" />
-        <input type="hidden" name="productname" value="@ViewBag.ProductName" />
-        <input type="hidden" name="quantity" value="@ViewBag.Quantity" />
-        <input type="hidden" name="total" value="@ViewBag.Quantity" />
-    </form>
-</div>
 
 
 <!-- Start Brands -->

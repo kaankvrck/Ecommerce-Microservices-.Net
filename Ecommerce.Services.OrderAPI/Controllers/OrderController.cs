@@ -4,6 +4,9 @@ using Ecommerce.Services.OrderAPI.Models;
 using Ecommerce.Services.OrderAPI.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 
 namespace Ecommerce.Services.OrderAPI.Controllers
@@ -30,13 +33,20 @@ namespace Ecommerce.Services.OrderAPI.Controllers
             var authorizationHeader = HttpContext.Request.Headers["Authorization"].ToString();
 
             var tokenPayload = JwtTokenHelper.GetJwtPayload(authorizationHeader);
-            if (tokenPayload != null) 
+            if (tokenPayload != null)
             {
                 using var transaction = await _context.Database.BeginTransactionAsync();
                 try
                 {
                     decimal price = 30;
-                    // check stock ıf success return ok else throw exceptıon
+                    string checkStockUrl = SD.CatalogAPIBase + "api/check_stock_for_product";
+                    var checkStockResponse = await _apiServiceHelper.GetWithParamAsync(checkStockUrl, request.ProductId.ToString());
+                    JObject checkStockJson = JObject.Parse(checkStockResponse);
+                    int stockValue = (int)checkStockJson["stock"];
+
+                    if (checkStockResponse.IsNullOrEmpty() || stockValue <= 0 || request.ProductQuantity > stockValue)
+                        throw new Exception("Geçersiz stok değeri!");
+
                     var customerId = tokenPayload.FirstOrDefault(p => p.Key == "sub").Value.ToString();
                     Order order = new Order()
                     {
@@ -67,7 +77,13 @@ namespace Ecommerce.Services.OrderAPI.Controllers
                     _context.tb_order_detail.Add(orderDetail);
                     await _context.SaveChangesAsync();
 
-                    // update stock ıf not success throw exceptıon 
+                    string updateStockUrl = SD.CatalogAPIBase + "api/update_stock_for_product/" + request.ProductId;
+                    var updateStockDto = new UpdateStockDto(request.ProductId, stockValue - request.ProductQuantity);
+
+                    string updateStockDtoJson = JsonSerializer.Serialize(updateStockDto);
+                    var updateStockResponse = await _apiServiceHelper.PutAsync(updateStockUrl, updateStockDtoJson);
+                    if (updateStockResponse != "")
+                        throw new Exception("Stok güncelleme başarısız!");
                     // Commit the transaction if everything is successful
                     await transaction.CommitAsync();
                     return Ok(_response);
@@ -86,8 +102,8 @@ namespace Ecommerce.Services.OrderAPI.Controllers
             }
         }
 
-        [HttpGet("OrderList/{customerId}")]
-        public async Task<List<OrderListReponse>> OrderList(string customerId)
+        [HttpGet("GetMyOrders")]
+        public async Task<IActionResult> GetMyOrders(string customerId)
         {
             var orderList = await (from order in _context.tb_order
                                    join orderDetail in _context.tb_order_detail on order.id equals orderDetail.orderid
@@ -104,10 +120,14 @@ namespace Ecommerce.Services.OrderAPI.Controllers
                                    })
                          .ToListAsync();
 
-            if (orderList == null) return new List<OrderListReponse>();
+            if (orderList == null)
+                _response.Result = new List<OrderListReponse>();
+            else
+                _response.Result = orderList;
 
-            return orderList;
+            return Ok(_response);
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrderById(int id)
         {
@@ -131,7 +151,7 @@ namespace Ecommerce.Services.OrderAPI.Controllers
 
             return activeOrders;
         }
-        
+
 
         //Sipariş durumunu "İptal edildi" yapma
         [HttpPost("{OrderId}")]
@@ -159,29 +179,6 @@ namespace Ecommerce.Services.OrderAPI.Controllers
                 return Ok(order);
             }
         }
-
-        //Just for testing
-        [HttpGet("external")]
-        public async Task<ActionResult> GetHttpApiData()
-        {
-            string apiUrl = "https://reqres.in/api/users/2";
-
-            string getData = await _apiServiceHelper.GetAsync(apiUrl);
-
-            return Ok(getData);
-        }
-
-        [HttpGet("param")]
-        public async Task<ActionResult> GetHttpApiDataWithParam()
-        {
-            string apiUrl = "https://reqres.in/api/users";
-            string param = "2";
-
-            string getData = await _apiServiceHelper.GetWithParamAsync(apiUrl, param);
-
-            return Ok(getData);
-        }
     }
-
 }
 
