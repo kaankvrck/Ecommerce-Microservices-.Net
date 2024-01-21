@@ -62,6 +62,12 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Shop">Shop</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Order" asp-action="GetMyOrders">My Orders</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                         </li>
@@ -151,6 +157,7 @@
                     <ul class="list-unstyled text-light footer-link-list">
                         <li><a class="text-decoration-none" href="/Home/Index">Home</a></li>
                         <li><a class="text-decoration-none" href="/Home/About">About</a></li>
+                        <li><a class="text-decoration-none" href="/Home/Order/OrderList">My Orders</a></li>
                         <li><a class="text-decoration-none" href="/Home/Contact">Contact</a></li>
                     </ul>
                 </div>

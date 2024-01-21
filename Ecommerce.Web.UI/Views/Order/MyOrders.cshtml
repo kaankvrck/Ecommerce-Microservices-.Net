@@ -1,0 +1,113 @@
+﻿@model List<MyOrdersResponseDto>;
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<style>
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #45a049;
+        }
+</style>
+
+<h1>Siparişlerim</h1>
+
+<table id="dataTable" border="1">
+    <thead>
+        <tr>
+            <th>Ürün Adı</th>
+            <th>Miktar</th>
+            <th>Fiyat</th>
+            <th>Durum</th>
+            <th>Tarih</th>
+            <th>Toplam</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.ProductName</td>
+                <td>@order.Quantity</td>
+                <td>@order.Price</td>
+                <td>@order.StatusName</td>
+                <td>@order.CreatedDate</td>
+                <td>@order.TotalPrice</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<!-- Start Brands -->
+<section class="bg-light py-5">
+    <div class="container my-4">
+        <div class="row text-center py-3 mx-auto">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1">Our Brands</h1>
+                <p>
+                    Encompass a diverse and curated selection of high-quality products, each reflecting a commitment to
+                    excellence and innovation
+                </p>
+                <h1 class="display-4">Ege University</h1>
+                <p class="lead">
+                    Peaceful University, High-Quality Education, Bright Future
+                </p>
+            </div>
+        </div>
+
+        <div class="row text-center mx-auto">
+            <div class="col-12 mb-4">
+                <!-- Add the content for the logo here -->
+                <a href="#">
+                    <img class="img-fluid brand-img" src="~/img/Logo_Ege_Uni.png" alt="University Logo" style="max-width: 10%;">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
