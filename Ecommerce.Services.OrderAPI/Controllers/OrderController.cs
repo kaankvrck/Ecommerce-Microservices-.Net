@@ -38,14 +38,19 @@ namespace Ecommerce.Services.OrderAPI.Controllers
                 using var transaction = await _context.Database.BeginTransactionAsync();
                 try
                 {
-                    decimal price = 30;
+                    List<ProductDto> productList = await GetProductList();
+
+                    if (productList.FirstOrDefault(p => p.id == request.ProductId) == null)
+                        throw new Exception("Ürün bulunamadı!");
+
                     string checkStockUrl = SD.CatalogAPIBase + "api/check_stock_for_product";
                     var checkStockResponse = await _apiServiceHelper.GetWithParamAsync(checkStockUrl, request.ProductId.ToString());
                     JObject checkStockJson = JObject.Parse(checkStockResponse);
                     int stockValue = (int)checkStockJson["stock"];
-
                     if (checkStockResponse.IsNullOrEmpty() || stockValue <= 0 || request.ProductQuantity > stockValue)
                         throw new Exception("Geçersiz stok değeri!");
+
+                    decimal selectedProductPrice = productList.FirstOrDefault(p => p.id == request.ProductId).price;
 
                     var customerId = tokenPayload.FirstOrDefault(p => p.Key == "sub").Value.ToString();
                     Order order = new Order()
@@ -55,7 +60,7 @@ namespace Ecommerce.Services.OrderAPI.Controllers
                         phonenumber = request.PhoneNumber,
                         email = tokenPayload.FirstOrDefault(p => p.Key == "email").Value.ToString(),
                         address = request.Address,
-                        totalprice = price * request.ProductQuantity,
+                        totalprice = selectedProductPrice * request.ProductQuantity,
                         statusid = (int)Enums.OrderStatus.Created,
                         createdby = customerId
                     };
@@ -70,7 +75,7 @@ namespace Ecommerce.Services.OrderAPI.Controllers
                         orderid = orderId,
                         productid = request.ProductId,
                         quantity = request.ProductQuantity,
-                        price = price,
+                        price = selectedProductPrice,
                         createdby = customerId
                     };
 
@@ -102,28 +107,47 @@ namespace Ecommerce.Services.OrderAPI.Controllers
             }
         }
 
+        private async Task<List<ProductDto>> GetProductList()
+        {
+            string getProductUrl = SD.CatalogAPIBase + "api/products";
+            var getProductResponse = await _apiServiceHelper.GetAsync(getProductUrl);
+            List<ProductDto> productList = JsonSerializer.Deserialize<List<ProductDto>>(getProductResponse);
+            return productList;
+        }
+
         [HttpGet("GetMyOrders")]
         public async Task<IActionResult> GetMyOrders(string customerId)
         {
-            var orderList = await (from order in _context.tb_order
+            List<ProductDto> productList = await GetProductList();
+            if (productList.Count == 0)
+                throw new Exception("Ürün listesi bulunamadı!");
+
+            var orderList =  (from order in _context.tb_order
                                    join orderDetail in _context.tb_order_detail on order.id equals orderDetail.orderid
                                    join orderStatus in _context.tb_order_status on order.statusid equals orderStatus.id
                                    where order.customerid == customerId
-                                   select new OrderListReponse()
+                                   select new OrderListResponse()
                                    {
                                        CreatedDate = order.createddate,
                                        StatusName = orderStatus.description,
                                        TotalPrice = order.totalprice,
-                                       ProductName = "ornek urun",
+                                       ProductId = orderDetail.productid,
+                                       ProductName = "",
                                        Quantity = orderDetail.quantity,
                                        Price = orderDetail.price
                                    })
-                         .ToListAsync();
-
+                         .ToList();
+            
             if (orderList == null)
-                _response.Result = new List<OrderListReponse>();
+                _response.Result = new List<OrderListResponse>();
             else
+            {
+                foreach (var order in orderList)
+                {
+                    order.ProductName = productList.FirstOrDefault(p => p.id == order.ProductId).name;
+                }
                 _response.Result = orderList;
+            }
 
             return Ok(_response);
         }
@@ -151,7 +175,6 @@ namespace Ecommerce.Services.OrderAPI.Controllers
 
             return activeOrders;
         }
-
 
         //Sipariş durumunu "İptal edildi" yapma
         [HttpPost("{OrderId}")]

@@ -56,7 +56,7 @@
                     <div class="col-md-12 text-center">
                         <h2 class="mb-4">@ViewBag.Total TL</h2>
 
-                            <a asp-controller="Order" asp-action="Checkout">Alışverişi tamamla</a>
+                            <button type="submit" asp-controller="Order" asp-action="Checkout">Alışverişi tamamla</button>
                     </div>
                 </div>
                 </div>
@@ -85,5 +85,14 @@
      .customer-info-table {
          max-width: 400px;
          width: 100%;
+     }
+
+     button {
+         background-color: #4CAF50;
+         color: white;
+         padding: 10px 20px;
+         border: none;
+         border-radius: 4px;
+         cursor: pointer;
      }
 </style>
