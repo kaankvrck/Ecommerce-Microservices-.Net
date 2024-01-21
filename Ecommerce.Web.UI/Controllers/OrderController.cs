@@ -23,7 +23,7 @@ namespace Ecommerce.Web.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details()
+        public async Task<IActionResult> Details(int productId, int quantity, decimal price, string productName)
         {
             var claim = User.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Sub);
 
@@ -45,10 +45,8 @@ namespace Ecommerce.Web.UI.Controllers
                 return BadRequest(response.Message ?? "Kulanıcı verileri alınırken bir hata oluştu.");
             }
 
-            int quantity = 2;
-            decimal price = 3.55m;
-            ViewBag.ProductName = "İlaç";
-            ViewBag.ProductId = 12542;
+            ViewBag.ProductName = productName;
+            ViewBag.ProductId = productId;
             ViewBag.Quantity = quantity;
             ViewBag.Price = price;
             ViewBag.Total = quantity * price;
@@ -58,7 +56,7 @@ namespace Ecommerce.Web.UI.Controllers
         }
 
 
-        public async Task<IActionResult> Checkout()
+        public async Task<IActionResult> Checkout(int productId, int quantity)
         {
             var claim = User.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Sub);
 
@@ -75,8 +73,8 @@ namespace Ecommerce.Web.UI.Controllers
             {
                 PhoneNumber = userDto.PhoneNumber,
                 Address = userDto.Address,
-                ProductId = 4,
-                ProductQuantity = 2
+                ProductId = productId,
+                ProductQuantity = quantity
 
             };
             ResponseDto responseDto = await _orderService.CreateOrderAsync(createOrderRequest);

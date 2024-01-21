@@ -43,54 +43,7 @@ namespace Ecommerce.Web.UI.Controllers
         {
             return View();
         }
-        public IActionResult Order()
-        {
-            if (_tokenProvider.GetToken() == null)
-            {
-                
-                return RedirectToAction("Index", "Home");
-            } 
-            else
-            {
-                //!!!!!!!!!!!!!!!!!!!!!!
-                var handler = new JwtSecurityTokenHandler();
-                var jsonToken = handler.ReadToken(_tokenProvider.GetToken()) as JwtSecurityToken;
-                //!!!!!!!!!!!!!!!!!!!
-                int quantity = 2;
-                decimal price = 3.55m;
-                ViewBag.CustomerId = jsonToken.Payload.FirstOrDefault(p => p.Key == "sub").Value.ToString();
-                ViewBag.AdSoyad = "Ahmet";
-                ViewBag.Address = "İzmir";
-                ViewBag.ProductName = "İlaç";
-                ViewBag.ProductId = 12542;
-                ViewBag.Quantity = quantity;
-                ViewBag.Price = price;
-                ViewBag.Total = quantity * price;
-
-                return View();
-            }
-            
-        }
-        public IActionResult OrderList()
-        {
-            if (_tokenProvider.GetToken() == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                //!!!!!!!!!!!!!!!!!!!!!!
-                var handler = new JwtSecurityTokenHandler();
-                var jsonToken = handler.ReadToken(_tokenProvider.GetToken()) as JwtSecurityToken;
-                //!!!!!!!!!!!!!!!!!!!
-                string customerId = jsonToken.Payload.FirstOrDefault(p => p.Key == "sub").Value.ToString();
-                string requestUrl = "http://localhost:7003/api/orders/OrderList/";
-                ViewBag.CustomerId = customerId;
-                ViewBag.RequestURL = $"{requestUrl}{customerId}";
-                return View();
-            }
-        }
-
+        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
