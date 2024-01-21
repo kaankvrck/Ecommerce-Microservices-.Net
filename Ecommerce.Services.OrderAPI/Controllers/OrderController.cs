@@ -1,8 +1,12 @@
 ﻿using Ecommerce.Services.OrderAPI.Common;
 using Ecommerce.Services.OrderAPI.Data;
 using Ecommerce.Services.OrderAPI.Models;
+using Ecommerce.Services.OrderAPI.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 
 namespace Ecommerce.Services.OrderAPI.Controllers
@@ -13,26 +17,41 @@ namespace Ecommerce.Services.OrderAPI.Controllers
     {
         private readonly OrderDbContext _context;
         private readonly ApiServiceHelper _apiServiceHelper;
+        protected ResponseDto _response;
 
         public OrderController(OrderDbContext context, ApiServiceHelper apiServiceHelper)
         {
             _context = context;
             _apiServiceHelper = apiServiceHelper;
+            _response = new();
         }
 
         [HttpPost("CreateOrder")]
         //[Authorize]
-        public async Task CreateOrder([FromBody] CreateOrderRequest request)
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
         {
             var authorizationHeader = HttpContext.Request.Headers["Authorization"].ToString();
 
             var tokenPayload = JwtTokenHelper.GetJwtPayload(authorizationHeader);
-            if (tokenPayload != null) 
+            if (tokenPayload != null)
             {
                 using var transaction = await _context.Database.BeginTransactionAsync();
                 try
                 {
-                    decimal price = 30;
+                    List<ProductDto> productList = await GetProductList();
+
+                    if (productList.FirstOrDefault(p => p.id == request.ProductId) == null)
+                        throw new Exception("Ürün bulunamadı!");
+
+                    string checkStockUrl = SD.CatalogAPIBase + "api/check_stock_for_product";
+                    var checkStockResponse = await _apiServiceHelper.GetWithParamAsync(checkStockUrl, request.ProductId.ToString());
+                    JObject checkStockJson = JObject.Parse(checkStockResponse);
+                    int stockValue = (int)checkStockJson["stock"];
+                    if (checkStockResponse.IsNullOrEmpty() || stockValue <= 0 || request.ProductQuantity > stockValue)
+                        throw new Exception("Geçersiz stok değeri!");
+
+                    decimal selectedProductPrice = productList.FirstOrDefault(p => p.id == request.ProductId).price;
+
                     var customerId = tokenPayload.FirstOrDefault(p => p.Key == "sub").Value.ToString();
                     Order order = new Order()
                     {
@@ -41,7 +60,7 @@ namespace Ecommerce.Services.OrderAPI.Controllers
                         phonenumber = request.PhoneNumber,
                         email = tokenPayload.FirstOrDefault(p => p.Key == "email").Value.ToString(),
                         address = request.Address,
-                        totalprice = price * request.ProductQuantity,
+                        totalprice = selectedProductPrice * request.ProductQuantity,
                         statusid = (int)Enums.OrderStatus.Created,
                         createdby = customerId
                     };
@@ -56,49 +75,83 @@ namespace Ecommerce.Services.OrderAPI.Controllers
                         orderid = orderId,
                         productid = request.ProductId,
                         quantity = request.ProductQuantity,
-                        price = price,
+                        price = selectedProductPrice,
                         createdby = customerId
                     };
 
                     _context.tb_order_detail.Add(orderDetail);
                     await _context.SaveChangesAsync();
 
+                    string updateStockUrl = SD.CatalogAPIBase + "api/update_stock_for_product/" + request.ProductId;
+                    var updateStockDto = new UpdateStockDto(request.ProductId, stockValue - request.ProductQuantity);
+
+                    string updateStockDtoJson = JsonSerializer.Serialize(updateStockDto);
+                    var updateStockResponse = await _apiServiceHelper.PutAsync(updateStockUrl, updateStockDtoJson);
+                    if (updateStockResponse != "")
+                        throw new Exception("Stok güncelleme başarısız!");
                     // Commit the transaction if everything is successful
                     await transaction.CommitAsync();
-
-                    Console.WriteLine("Transaction committed successfully.");
+                    return Ok(_response);
                 }
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
-                    Console.WriteLine($"Transaction rolled back. Error: {ex.Message}");
+                    _response.IsSuccess = false;
+                    _response.Message = ex.Message;
+                    return BadRequest(_response);
                 }
             }
-            
+            else
+            {
+                return BadRequest(_response);
+            }
         }
 
-        [HttpGet("OrderList/{customerId}")]
-        public async Task<List<OrderListReponse>> OrderList(string customerId)
+        private async Task<List<ProductDto>> GetProductList()
         {
-            var orderList = await (from order in _context.tb_order
+            string getProductUrl = SD.CatalogAPIBase + "api/products";
+            var getProductResponse = await _apiServiceHelper.GetAsync(getProductUrl);
+            List<ProductDto> productList = JsonSerializer.Deserialize<List<ProductDto>>(getProductResponse);
+            return productList;
+        }
+
+        [HttpGet("GetMyOrders")]
+        public async Task<IActionResult> GetMyOrders(string customerId)
+        {
+            List<ProductDto> productList = await GetProductList();
+            if (productList.Count == 0)
+                throw new Exception("Ürün listesi bulunamadı!");
+
+            var orderList =  (from order in _context.tb_order
                                    join orderDetail in _context.tb_order_detail on order.id equals orderDetail.orderid
                                    join orderStatus in _context.tb_order_status on order.statusid equals orderStatus.id
                                    where order.customerid == customerId
-                                   select new OrderListReponse()
+                                   select new OrderListResponse()
                                    {
                                        CreatedDate = order.createddate,
                                        StatusName = orderStatus.description,
                                        TotalPrice = order.totalprice,
-                                       ProductName = "ornek urun",
+                                       ProductId = orderDetail.productid,
+                                       ProductName = "",
                                        Quantity = orderDetail.quantity,
                                        Price = orderDetail.price
                                    })
-                         .ToListAsync();
+                         .ToList();
+            
+            if (orderList == null)
+                _response.Result = new List<OrderListResponse>();
+            else
+            {
+                foreach (var order in orderList)
+                {
+                    order.ProductName = productList.FirstOrDefault(p => p.id == order.ProductId).name;
+                }
+                _response.Result = orderList;
+            }
 
-            if (orderList == null) return new List<OrderListReponse>();
-
-            return orderList;
+            return Ok(_response);
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrderById(int id)
         {
@@ -122,7 +175,6 @@ namespace Ecommerce.Services.OrderAPI.Controllers
 
             return activeOrders;
         }
-        
 
         //Sipariş durumunu "İptal edildi" yapma
         [HttpPost("{OrderId}")]
@@ -150,29 +202,6 @@ namespace Ecommerce.Services.OrderAPI.Controllers
                 return Ok(order);
             }
         }
-
-        //Just for testing
-        [HttpGet("external")]
-        public async Task<ActionResult> GetHttpApiData()
-        {
-            string apiUrl = "https://reqres.in/api/users/2";
-
-            string getData = await _apiServiceHelper.GetAsync(apiUrl);
-
-            return Ok(getData);
-        }
-
-        [HttpGet("param")]
-        public async Task<ActionResult> GetHttpApiDataWithParam()
-        {
-            string apiUrl = "https://reqres.in/api/users";
-            string param = "2";
-
-            string getData = await _apiServiceHelper.GetWithParamAsync(apiUrl, param);
-
-            return Ok(getData);
-        }
     }
-
 }
 

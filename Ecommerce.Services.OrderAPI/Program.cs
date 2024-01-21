@@ -22,6 +22,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+SD.CatalogAPIBase = builder.Configuration["BaseUrl:CatalogAPI"];
 
 // For ApiService.cs TEST!
 builder.Services.AddHttpClient();

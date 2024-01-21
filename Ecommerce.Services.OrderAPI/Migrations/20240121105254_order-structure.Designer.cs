@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Services.OrderAPI.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    [Migration("20240114173710_order-structure")]
+    [Migration("20240121105254_order-structure")]
     partial class orderstructure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

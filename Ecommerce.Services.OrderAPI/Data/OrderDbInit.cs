@@ -11,6 +11,7 @@ namespace Ecommerce.Services.OrderAPI.Data
             using var scope = app.Services.CreateScope();
 
             SeedData(scope.ServiceProvider.GetService<OrderDbContext>());
+            SeedOrderStatus(scope.ServiceProvider.GetService<OrderDbContext>());
         }
 
         private static void SeedData(OrderDbContext? context)
@@ -51,9 +52,54 @@ namespace Ecommerce.Services.OrderAPI.Data
 
             context.tb_order.AddRange(orders);
             context.SaveChanges();
-
-
-
         }
+
+        private static void SeedOrderStatus(OrderDbContext? context)
+        {
+            if (context.tb_order_status.Any())
+            {
+                Console.WriteLine("Already have order status data");
+                return;
+            }
+
+            var orderStatus = new List<OrderStatus>()
+            {
+                new OrderStatus()
+                {
+                    id = 1,
+                    description =  "Oluşturuldu",
+                    createddate = DateTime.SpecifyKind(TimeHelper.GetCurrentTurkeyTime(), DateTimeKind.Utc),
+                    createdby = 1,
+                    isdeleted = false
+                },
+                new OrderStatus()
+                {
+                    id = 2,
+                    description =  "Hazırlanıyor",
+                    createddate = DateTime.SpecifyKind(TimeHelper.GetCurrentTurkeyTime(), DateTimeKind.Utc),
+                    createdby = 1,
+                    isdeleted = false
+                },
+                new OrderStatus()
+                {
+                    id = 3,
+                    description =  "Tamamlandı",
+                    createddate = DateTime.SpecifyKind(TimeHelper.GetCurrentTurkeyTime(), DateTimeKind.Utc),
+                    createdby = 1,
+                    isdeleted = false
+                },
+                new OrderStatus()
+                {
+                    id = 4,
+                    description =  "İptal Edildi",
+                    createddate = DateTime.SpecifyKind(TimeHelper.GetCurrentTurkeyTime(), DateTimeKind.Utc),
+                    createdby = 1,
+                    isdeleted = false
+                }
+            };
+            context.tb_order_status.AddRange(orderStatus);
+            context.SaveChanges();
+        }
+
     }
 }
