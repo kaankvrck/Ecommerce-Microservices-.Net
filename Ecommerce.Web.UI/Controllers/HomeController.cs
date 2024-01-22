@@ -31,6 +31,10 @@ namespace Ecommerce.Web.UI.Controllers
         {
             return View();
         }
+        public IActionResult GetItems()
+        {
+            return View();
+        }
         public IActionResult Login()
         {
             return View();

@@ -66,13 +66,6 @@ namespace Ecommerce.Services.CatalogAPI.Controllers
             return Ok(items);
         }
 
-        // GET api/mSHealth
-        [HttpGet("mSHealth")]
-        public string Test()
-        {
-            return "Hello World from Catalog Microservice!";
-        }
-
     }
 
     [ApiController]

@@ -106,9 +106,20 @@ namespace Ecommerce.Web.UI.Service
                         return new() { IsSuccess = false, Message = "Internal Server Error" };
                     default:
                         var apiContent = await apiResponse.Content.ReadAsStringAsync();
-                        var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+                        var apiResponseDto = new ResponseDto();
+                        try
+                        {
+                             apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);                           
+                        }
+                        catch (Exception ex) 
+                        {
+                            apiResponseDto.Result = apiContent;
+                            apiResponseDto.Message = ex.Message.ToString();
+                            apiResponseDto.IsSuccess = true;
+                        }
                         return apiResponseDto;
-                }
+                        }
+
             }catch (Exception ex)
             {
                 var dto = new ResponseDto

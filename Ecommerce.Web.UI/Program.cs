@@ -18,11 +18,14 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<ICustomerService, CustomerService>();
 SD.CustomerAPIBase = builder.Configuration["ServiceUrls:CustomerAPI"];
+SD.CatalogAPIBase = builder.Configuration["ServiceUrls:CatalogAPI"];
 SD.OrderAPIBase = builder.Configuration["ServiceUrls:OrderAPI"];
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICatalogService, CatalogService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
