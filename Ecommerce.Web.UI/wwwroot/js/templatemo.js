@@ -26,9 +26,13 @@ $(document).ready(function () {
   $('.btn-plus').click(function () {
     var productId = $(this).data('product-id');
     var varValue = $("#var-value-" + productId);
-
+    $('[id^="var-value-"]').not(varValue).text(0);
     var val = parseInt(varValue.text());
     val++;
+
+   $('input[name="adet"]').val(val);
+
+      $('input[name="choosenid"]').val(productId);
 
     varValue.text(val);
     $("#product-quantity-" + productId).val(val);

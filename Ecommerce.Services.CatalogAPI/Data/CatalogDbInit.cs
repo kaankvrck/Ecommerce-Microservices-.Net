@@ -32,7 +32,7 @@ namespace Ecommerce.Services.CatalogAPI.Data
                     description = "Ocean ExtraMag’ın her tabletinde magnezyum malat, magnezyum bisglisinat ve magnezyum sitrattan gelen 200 mg elementel magnezyum bulunur. Renklendirici içermez. ÜRÜN İÇERİĞİ: Magnezyum 200 mg MENŞEİ: Türkiye",
                     stock = 10,
                     price = 335.00M,
-                    image = ".\\Ecommerce.Web.UI\\wwwroot\\img\\shop_01.jpg"
+                    image = "shop_01.jpg"
                 },
                 new Catalog
                 {
@@ -43,7 +43,7 @@ namespace Ecommerce.Services.CatalogAPI.Data
                     brand = "Venatura",
                     price = 145.50M,
                     stock = 100,
-                    image = ".\\Ecommerce.Web.UI\\wwwroot\\img\\shop_02.jpg"
+                    image = "shop_02.jpg"
                 },
                 new Catalog
                 {
@@ -54,7 +54,7 @@ namespace Ecommerce.Services.CatalogAPI.Data
                     brand = "Orzax Ocean",
                     price = 195.99M,
                     stock = 105,
-                    image = ".\\Ecommerce.Web.UI\\wwwroot\\img\\shop_03.jpg"
+                    image = "shop_03.jpg"
                 },
                 new Catalog
                 {
@@ -65,7 +65,7 @@ namespace Ecommerce.Services.CatalogAPI.Data
                     brand = "Venatura",
                     price = 218.20M,
                     stock = 200,
-                    image = ".\\Ecommerce.Web.UI\\wwwroot\\img\\shop_04.jpg"
+                    image = "shop_04.jpg"
                 },
                 new Catalog
                 {
@@ -76,7 +76,7 @@ namespace Ecommerce.Services.CatalogAPI.Data
                     brand = "Solgar",
                     price = 335.01M,
                     stock = 5,
-                    image = ".\\Ecommerce.Web.UI\\wwwroot\\img\\shop_05.jpg"
+                    image = "shop_05.jpg"
                 }
             };
 
