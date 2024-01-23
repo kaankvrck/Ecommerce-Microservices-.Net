@@ -83,6 +83,10 @@ namespace Ecommerce.Web.UI.Controllers
             {
                 return RedirectToAction("GetMyOrders", "Order");
             }
+            if (responseDto.Message == "Ürün bulunamadı!")
+            {
+                return RedirectToAction("OutOfStock", "Order");
+            }
             else
             {
                 return RedirectToPage("/BadRequest");
@@ -114,5 +118,11 @@ namespace Ecommerce.Web.UI.Controllers
             return View("MyOrders", myOrders);
 
         }
+
+        public IActionResult OutOfStock()
+        {
+            return View();
+        }
     }
+
 }
