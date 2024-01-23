@@ -3,121 +3,125 @@
 <!-- Start Content -->
 <div class="container py-5">
     <form>
-    <div class="row">
-        
-        <div class="col-lg-3">
-            <h1 class="h2 pb-4">Categories</h1>
-            <ul class="list-unstyled templatemo-accordion">
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Supplement
-                        <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul class="collapse show list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Vitamin</a></li>
-                        <li><a class="text-decoration-none" href="#">Mineral</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="list-unstyled templatemo-accordion">
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Brand
-                        <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul class="collapse show list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Orzax Ocean</a></li>
-                        <li><a class="text-decoration-none" href="#">Solgar</a></li>
-                        <li><a class="text-decoration-none" href="#">Venatura</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+        <div class="row">
 
-        <div class="col-lg-9">
-            <div class="row">
-                <div class="col-md-6">
-                    <ul class="list-inline shop-top-menu pb-3 pt-1">
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Vitamin</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none" href="#">Mineral</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Show/Order according to block is omitted -->
+            <div class="col-lg-3">
+                <h1 class="h2 pb-4">Categories</h1>
+                <ul class="list-unstyled templatemo-accordion">
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                            Supplement
+                            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul class="collapse show list-unstyled pl-3">
+                            <li><a class="text-decoration-none" href="#">Vitamin</a></li>
+                            <li><a class="text-decoration-none" href="#">Mineral</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="list-unstyled templatemo-accordion">
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                            Brand
+                            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul class="collapse show list-unstyled pl-3">
+                            <li><a class="text-decoration-none" href="#">Orzax Ocean</a></li>
+                            <li><a class="text-decoration-none" href="#">Solgar</a></li>
+                            <li><a class="text-decoration-none" href="#">Venatura</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-            <div class="row">
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-inline shop-top-menu pb-3 pt-1">
+                            <li class="list-inline-item">
+                                <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="h3 text-dark text-decoration-none mr-3" href="#">Vitamin</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="h3 text-dark text-decoration-none" href="#">Mineral</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Show/Order according to block is omitted -->
+                </div>
+                <div class="row">
                     @{
                         int i = 1; int adet = 0;
                     }
-                    @foreach(var item in Model)
-                {
-                   
-                <!-- Start 1st Item -->
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0">
-                        <div class="card rounded-0">
-                                    <img class="card-img rounded-0 img-fluid" src="~/img/@item.image">
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <!-- Product Name -->
-                            <a href="#" class="h3 text-decoration-none mb-3">@item.name</a>
-                                    <input type="hidden" name="isim" value="@item.name" />
-                            <!-- Price Section -->
-                            <div class="d-flex justify-content-end align-items-center mb-3">
-                                        ₺@item.price&nbsp;<i class="fa fa-tag fa-lg text-success"></i>
-                                        <input type="hidden" name="price" value=@item.price>
-                            </div>
-                            <!-- Quantity Section -->
-                            <div class="col-auto text-right">
-                                <ul class="list-inline pb-3">
-                                    <li class="list-inline-item text-left">
-                                        Quantity
-                                                @{string id = "product-quantity-" + i.ToString();
-                                                    string idval = "var-value-" + i.ToString();
-                                                }
-                                                <input type="hidden" name="product-quantity" id=@id value="0">
-                                                <input type="hidden" name="productid" value="@item.productid">
-                                            </li>
-                                    <li class="list-inline-item">
-                                        <span class="btn btn-success btn-minus" id="btn-minus-1" data-product-id=@i>-</span>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <span class="badge bg-secondary" id=@idval>@adet</span>
-                                                <input type="hidden" name="adet" value="@adet" />
-                                                <input type="hidden" name="choosenid" value="@item.productid">
-
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <span class="btn btn-success btn-plus" id="btn-plus-1" data-product-id=@i>+</span>
-                                    </li>
-                                </ul>
-                            </div>
-                                    @{
-                                        i += 1;
-                                    }
+                    @foreach (var item in Model)
+                    {
+                        @if (item.stock > 0)
+                        {
+                            <!-- Start 1st Item -->
+                            <div class="col-md-4">
+                                <div class="card mb-4 product-wap rounded-0">
+                                    <div class="card rounded-0">
+                                        <img class="card-img rounded-0 img-fluid" src="~/img/@item.image">
+                                        <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Product Name -->
+                                        <a href="#" class="h3 text-decoration-none mb-3">@item.name</a>
+                                        <input type="hidden" name="isim" value="@item.name" />
+                                        <!-- Price Section -->
+                                        <div class="d-flex justify-content-end align-items-center mb-3">
+                                            ₺@item.price&nbsp;<i class="fa fa-tag fa-lg text-success"></i>
+                                            <input type="hidden" name="price" value="@item.price">
+                                        </div>
+                                        <!-- Quantity Section -->
+                                        <div class="col-auto text-right">
+                                            <ul class="list-inline pb-3">
+                                                <li class="list-inline-item text-left">
+                                                    Quantity
+                                                    @{
+                                                        string id = "product-quantity-" + i.ToString();
+                                                        string idval = "var-value-" + i.ToString();
+                                                        string stockId = "productstock-" + i.ToString();
+                                                    }
+                                                    <input type="hidden" name="product-quantity" id=@id value="0">
+                                                    <input type="hidden" name="productid" value="@item.productid">
+                                                    <input type="hidden" name="productstock" id=@stockId value=@item.stock>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <span class="btn btn-success btn-minus" id="btn-minus-1" data-product-id=@i>-</span>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <span class="badge bg-secondary" id=@idval>@adet</span>
+                                                    <input type="hidden" name="adet" value="@adet" />
+                                                    <input type="hidden" name="choosenid" value="@item.productid">
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <span class="btn btn-success btn-plus" id="btn-plus-1" data-product-id=@i>+</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        @{
+                                            i += 1;
+                                        }
+                                    </div>
                                 </div>
+                            </div>
+                            <!-- End 1st Item -->
+                        }
+                    }
+                </div>
+                <!-- Order Button Section -->
+                <div class="row">
+                    <div class="col d-grid">
+                        <button type="submit" asp-controller="Catalog" asp-action="NavigateTo">Siparişi Oluştur</button>
                     </div>
                 </div>
-                <!-- End 1st Item -->
-                }
             </div>
-            <!-- Order Button Section -->
-            <div class="row">
-                <div class="col d-grid">
-                        <button type="submit" asp-controller="Catalog" asp-action="NavigateTo">Siparişi Oluştur</button>
-                </div>
-            </div>
+
         </div>
-        
-    </div>
     </form>
 </div>
 <!-- End Content -->
