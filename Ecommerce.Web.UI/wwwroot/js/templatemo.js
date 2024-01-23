@@ -55,6 +55,9 @@ $(document).ready(function () {
         var val = parseInt(varValue.text());
         val = (val > 0) ? val - 1 : 0;
 
+        $('input[name="adet"]').val(val);
+        $('input[name="choosenid"]').val(productId);
+
         varValue.text(val);
         $("#product-quantity-" + productId).val(val);
 
